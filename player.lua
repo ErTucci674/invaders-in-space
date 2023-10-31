@@ -2,6 +2,9 @@ Player = Entity:extend()
 
 function Player:new(x, y)
     Player.super.new(self, x, y)
+    self.width = PLAYER_WIDTH
+    self.height = PLAYER_HEIGHT
+    self.speed = PLAYER_SPEED
 end
 
 function Player:update(dt)
@@ -13,12 +16,12 @@ function Player:update(dt)
         end
     elseif love.keyboard.isDown("right") then
         self.x = self.x + self.speed * dt
-        if self.x + self.width >= window_width then
-            self.x = window_width - self.width
+        if self.x + self.width >= WINDOW_WIDTH then
+            self.x = WINDOW_WIDTH - self.width
         end
     end
 end
 
 function Player:draw()
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
 end
