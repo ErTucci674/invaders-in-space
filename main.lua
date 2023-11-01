@@ -16,12 +16,13 @@ function love.load()
     projectiles = {}
 
     -- Create Enemies
-    enemies_start = (WINDOW_WIDTH - (ENEMIES_COLS * ENEMY_WIDTH + (ENEMIES_COLS - 1) * ENEMIES_GAP)) / 2
+    enemies_x_start = (WINDOW_WIDTH - (ENEMIES_COLS * ENEMY_WIDTH + (ENEMIES_COLS - 1) * ENEMIES_GAP)) / 2
+    enemies_y_start = 30
     enemies = {}
     for r=1,ENEMIES_ROWS do
         tmp_enemies = {}
         for c=1,ENEMIES_COLS do
-            enemy = Enemy(enemies_start + (ENEMY_WIDTH + ENEMIES_GAP) * (c - 1), 200 + (ENEMY_HEIGHT + ENEMIES_GAP) * (r - 1))
+            enemy = Enemy(enemies_x_start + (ENEMY_WIDTH + ENEMIES_GAP) * (c - 1), enemies_y_start + (ENEMY_HEIGHT + ENEMIES_GAP) * (r - 1))
             table.insert(tmp_enemies, enemy)
         end
         table.insert(enemies, tmp_enemies)
@@ -52,6 +53,13 @@ function love.update(dt)
             table.remove(projectiles, i)
         end
     end
+
+    -- Aliens movement
+    for i,v in ipairs(enemies) do
+        for j,enemy in ipairs(v) do
+            
+        end
+    end
 end
 
 function love.draw()
@@ -63,7 +71,7 @@ function love.draw()
 
     for r,v in ipairs(enemies) do
         for c,enemy in ipairs(v) do
-            enemy.draw()
+            enemy:draw()
         end
     end
 end

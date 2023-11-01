@@ -1,6 +1,6 @@
 Entity = Object:extend()
 
-function Entity:new(x, y, width, height, speed)
+function Entity:new(x, y)
     self.x = x
     self.y = y
     self.width = 0
