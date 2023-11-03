@@ -16,8 +16,10 @@ function love.load()
     projectiles = {}
 
     -- Create Enemies
+    enemies_adjust = false
     enemies_x_start = (WINDOW_WIDTH - (ENEMIES_COLS * ENEMY_WIDTH + (ENEMIES_COLS - 1) * ENEMIES_GAP)) / 2
     enemies_y_start = 30
+    enemies_direction = 1
     enemies = {}
     for r=1,ENEMIES_ROWS do
         tmp_enemies = {}
@@ -43,6 +45,7 @@ function love.update(dt)
         table.insert(projectiles, projectile)
     end
 
+    -- Move projectiles, if any
     for i,v in ipairs(projectiles) do
         v:update(dt)
     end
@@ -57,8 +60,28 @@ function love.update(dt)
     -- Aliens movement
     for i,v in ipairs(enemies) do
         for j,enemy in ipairs(v) do
-            
+            if (enemy ~= 0) then
+                enemy:update(dt, enemies_direction)
+                if (enemies_direction == 1 and enemy.x + enemy.width > WINDOW_WIDTH) or (enemies_direction == -1 and enemy.x < 0) then
+                    enemies_adjust = true
+                    enemies_direction = enemies_direction * -1
+                end
+                -- Check for collision with projectiles, if any
+                for p,projectile in ipairs(projectiles) do
+                    if (projectile:collision(enemy)) then
+                        table.remove(projectiles, p)
+                        enemies[i][j] = 0
+                        break
+                    end
+                end
+            end
         end
+    end
+
+    -- Adjust the enemies in the screen
+    if (enemies_adjust) then
+        enemies = enemy:adjust(enemies, enemies_direction * -1)
+        enemies_adjust = false
     end
 end
 
@@ -69,16 +92,31 @@ function love.draw()
         v:draw()
     end
 
+    -- Draw if an alien is present in the current position (rather than a zero)
     for r,v in ipairs(enemies) do
         for c,enemy in ipairs(v) do
-            enemy:draw()
+            if (enemies[r][c] ~= 0) then
+                enemy:draw()
+            end
         end
     end
 end
 
--- Temporary close window
+-- TEMPORARY: close window
 function love.keypressed(key)
     if key == "q" then
         love.event.quit()
+    elseif key == "r" then
+        love.event.quit('restart')
+    end
+end
+
+-- Show array values (testing purposes)
+function showArray(arr)
+    for i=1,#arr do
+        for j=1,#arr[i] do
+            io.write(arr[i][j].x, " - ")
+        end
+        print()
     end
 end
