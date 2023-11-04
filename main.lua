@@ -35,7 +35,7 @@ function love.update(dt)
     player:update(dt)
 
     -- Shoot no more than the maximum number of projectiles every "projectiles_wait" seconds
-    if projectiles_timer < PROJECTILES_MAX then
+    if projectiles_timer < PROJECTILES_WAIT then
         projectiles_timer = projectiles_timer + dt
     end
 
@@ -67,8 +67,11 @@ function love.update(dt)
                     enemies_direction = enemies_direction * -1
                 end
                 -- Check for collision with projectiles, if any
+                -- Remove projectile and reset projectile timer
+                -- Remove enemy (set it to zero)
                 for p,projectile in ipairs(projectiles) do
                     if (projectile:collision(enemy)) then
+                        projectiles_timer = PROJECTILES_WAIT
                         table.remove(projectiles, p)
                         enemies[i][j] = 0
 
@@ -76,6 +79,8 @@ function love.update(dt)
                         if (j == 1 or j == #v) then
                             enemies = enemy:removeColumn(enemies, j)
                         end
+
+                        showArray(enemies)
 
                         break
                     end

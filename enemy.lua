@@ -50,6 +50,8 @@ function Enemy:adjust(enemies, direction)
 end
 
 function Enemy:removeColumn(enemies, column)
+    column_check = 1
+
     -- Remove column if every row is zero
     for i=1,#enemies do
         if (enemies[i][column] ~= 0) then break end
@@ -57,6 +59,10 @@ function Enemy:removeColumn(enemies, column)
             for j=1,#enemies do
                 table.remove(enemies[j], column)
             end
+
+            if (column == 0) then return enemies
+            elseif (column > 1) then column_check = column - 1 end
+            enemies = self:removeColumn(enemies, column_check)
         end
     end
 
