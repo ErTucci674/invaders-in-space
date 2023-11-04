@@ -46,6 +46,19 @@ function Enemy:adjust(enemies, direction)
             end
         end
     end
+    return enemies
+end
+
+function Enemy:removeColumn(enemies, column)
+    -- Remove column if every row is zero
+    for i=1,#enemies do
+        if (enemies[i][column] ~= 0) then break end
+        if (i == #enemies) then
+            for j=1,#enemies do
+                table.remove(enemies[j], column)
+            end
+        end
+    end
 
     return enemies
 end

@@ -16,8 +16,6 @@ function Projectile:draw()
 end
 
 function Projectile:collision(e)
-    -- if (self.x > e.x + e.width and self.x + self.width < e.x and self.y < e.y + e.height and self.y + self.height > e.y) then
-    -- if ((self.y < e.y + e.height and self.y > e.y) and ((self.x > e.x and self.x < e.x + e.width) or (self.x + self.width < e.x + e.width and self.x + self.width > e.x))) then
     if (self.y < e.y + e.height and self.y > e.y) then
         if ((self.x > e.x and self.x < e.x + e.width) or (self.x + self.width < e.x + e.width and self.x + self.width > e.x)) then
             return true

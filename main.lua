@@ -71,6 +71,12 @@ function love.update(dt)
                     if (projectile:collision(enemy)) then
                         table.remove(projectiles, p)
                         enemies[i][j] = 0
+
+                        -- Check if the whole column is zero
+                        if (j == 1 or j == #v) then
+                            enemies = enemy:removeColumn(enemies, j)
+                        end
+
                         break
                     end
                 end
@@ -88,8 +94,8 @@ end
 function love.draw()
     player:draw()
 
-    for i,v in ipairs(projectiles) do
-        v:draw()
+    for i,p in ipairs(projectiles) do
+        p:draw()
     end
 
     -- Draw if an alien is present in the current position (rather than a zero)
@@ -115,8 +121,13 @@ end
 function showArray(arr)
     for i=1,#arr do
         for j=1,#arr[i] do
-            io.write(arr[i][j].x, " - ")
+            if (arr[i][j] ~= 0) then
+                io.write(1, ' ')
+            else
+                io.write(0, ' ')
+            end
         end
         print()
     end
+    print(' --- ')
 end
