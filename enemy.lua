@@ -68,3 +68,26 @@ function Enemy:removeColumn(enemies, column)
 
     return enemies
 end
+
+function Enemy:enemiesCollision(enemies, e)
+    -- Temporary list to check "hit-row"
+    local row = {}
+
+    for i=1,#enemies[1] do
+        for j=#enemies,1,-1 do
+            if (enemies[j][i] ~= 0) then
+                -- table.insert(row, enemies[j][i])
+                if (enemies[j][i].y + enemies[j][i].height > WINDOW_HEIGHT) then
+                    love.event.quit('restart')
+                elseif (enemies[j][i].y + enemies[j][i].height > e.y) then
+                    if (enemies[j][i].x > e.x and enemies[j][i].x < e.x + e.width or enemies[j][i].x + enemies[j][i].width > e.x and enemies[j][i].x + enemies[j][i].width < e.x + e.width) then
+                        love.event.quit('restart')
+                    end
+                end
+                break
+            end
+        end
+    end
+
+    -- 
+end
