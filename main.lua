@@ -8,6 +8,8 @@ function love.load()
     require("projectile")
     require("enemy")
     
+    math.randomseed(os.time())
+
     -- Create Objects/Entities
     player = Player(WINDOW_WIDTH_CENTER - PLAYER_WIDTH / 2, WINDOW_HEIGHT - PLAYER_HEIGHT * 2)
 
@@ -29,15 +31,24 @@ function love.load()
         end
         table.insert(enemies, tmp_enemies)
     end
+
+    -- Enemies Projectiles
+    e_projectiles_wait = ENEMIES_PROJECTILES_WAIT
+    e_projectiles_timer = 0
+    e_projectiles = {}
 end
 
 function love.update(dt)
-    player:update(dt)
-
-    -- Shoot no more than the maximum number of projectiles every "projectiles_wait" seconds
+    -- Shoot no more than the maximum number of player's projectiles every "projectiles_wait" seconds
     if projectiles_timer < PROJECTILES_WAIT then
         projectiles_timer = projectiles_timer + dt
     end
+    -- Shoot enemies' projectiles every "e_projectiles_wait" seconds
+    if e_projectiles_timer < ENEMIES_PROJECTILES_WAIT then
+        e_projectiles_timer = e_projectiles_timer + dt
+    end
+
+    player:update(dt)
 
     if love.keyboard.isDown("space") and #projectiles < PROJECTILES_MAX and projectiles_timer >= PROJECTILES_WAIT then
         projectiles_timer = projectiles_timer - PROJECTILES_WAIT
@@ -45,12 +56,12 @@ function love.update(dt)
         table.insert(projectiles, projectile)
     end
 
-    -- Move projectiles, if any
+    -- Move Player's projectiles, if any
     for i,v in ipairs(projectiles) do
-        v:update(dt)
+        v:update(dt, -1)
     end
 
-    -- Clear projectiles (avoiding memory leaks)
+    -- Clear player's projectiles (avoiding memory leaks)
     for i=#projectiles,1,-1 do
         if projectiles[i].y + projectiles[i].height <= 0 then
             table.remove(projectiles, i)
@@ -70,7 +81,7 @@ function love.update(dt)
                 -- Remove projectile and reset projectile timer
                 -- Remove enemy (set it to zero)
                 for p,projectile in ipairs(projectiles) do
-                    if (projectile:collision(enemy)) then
+                    if (projectile:collision(enemy, -1)) then
                         projectiles_timer = PROJECTILES_WAIT
                         table.remove(projectiles, p)
                         enemies[i][j] = 0
@@ -79,8 +90,6 @@ function love.update(dt)
                         if (j == 1 or j == #v) then
                             enemies = enemy:removeColumn(enemies, j)
                         end
-
-                        showArray(enemies)
 
                         break
                     end
@@ -94,11 +103,41 @@ function love.update(dt)
         enemies = enemy:adjust(enemies, enemies_direction * -1)
         enemies_adjust = false
     end
+
+    -- Create Enemies projectiles
+    if (e_projectiles_timer >= e_projectiles_wait) then
+        e_projectiles_timer = e_projectiles_timer - e_projectiles_wait
+        ::random_enemy::
+        local e_row = math.random(1, #enemies)
+        local e_col = math.random(1, #enemies[1])
+        if (enemies[e_row][e_col] == 0) then goto random_enemy end
+
+        enemy = enemies[e_row][e_col]
+        e_projectile = Projectile(enemy.x + enemy.width / 2 - PROJECTILES_WIDTH / 2, enemy.y + enemy.height - PROJECTILES_HEIGHT)
+        e_projectile.speed = ENEMIES_PROJECTILES_SPEED
+        table.insert(e_projectiles, e_projectile)
+        e_projectiles_wait = math.random(1, 3)
+    end
+
+    -- Move enemies' projectiles, if any
+    for i,p in ipairs(e_projectiles) do
+        p:update(dt, 1)
+    end
+
+    -- Clear enemies' projectiles (avoiding memory leaks)
+    for p=#e_projectiles,1,-1 do
+       if (e_projectiles[p].y > WINDOW_HEIGHT) then
+            table.remove(e_projectiles, p)
+       end
+    end
+
 end
 
 function love.draw()
+    -- Show player
     player:draw()
 
+    -- Show player's projectiles
     for i,p in ipairs(projectiles) do
         p:draw()
     end
@@ -110,6 +149,11 @@ function love.draw()
                 enemy:draw()
             end
         end
+    end
+
+    -- Show enemies projectiles
+    for i,p in ipairs(e_projectiles) do
+        p:draw()
     end
 end
 
