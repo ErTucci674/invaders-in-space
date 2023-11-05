@@ -34,7 +34,7 @@ function love.load()
 
     -- Enemies Projectiles
     e_projectiles_wait = ENEMIES_PROJECTILES_WAIT
-    e_projectiles_timer = 0
+    e_projectiles_timer = 5
     e_projectiles = {}
 end
 
@@ -122,6 +122,13 @@ function love.update(dt)
     -- Move enemies' projectiles, if any
     for i,p in ipairs(e_projectiles) do
         p:update(dt, 1)
+        
+        -- Check if enemy's projectile collided with player
+        if (p:collision(player, 1)) then
+            table.remove(e_projectiles, i)
+            player:updateHealth(-1)
+            player:updateHealthTxt()
+        end
     end
 
     -- Clear enemies' projectiles (avoiding memory leaks)

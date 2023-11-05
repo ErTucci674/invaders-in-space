@@ -25,7 +25,13 @@ function Projectile:collision(e, direction)
             return false
         end
         return false
+    -- Enemy's Projectile collision
     else
+        if (self.y + self.height > e.y) then
+            if ((self.x > e.x and self.x < e.x + e.width) or (self.x + self.width < e.x + e.width and self.x + self.width > e.x)) then
+                return true
+            end
+        end
         return false
     end
 end
