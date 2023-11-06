@@ -6,6 +6,11 @@ function love.load()
     require("game")
     
     game = Game()
+
+    sx = love.graphics.getWidth() / DEFAULT_WIDTH
+    sy = love.graphics.getHeight() / DEFAULT_HEIGHT
+
+    love.graphics.setDefaultFilter("nearest", "nearest")
 end
 
 function love.update(dt)
@@ -13,6 +18,7 @@ function love.update(dt)
 end
 
 function love.draw()
+    love.graphics.scale(sx,sy)
     game:draw()
 end
 
