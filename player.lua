@@ -1,7 +1,7 @@
 Player = Entity:extend()
 
-function Player:new(x, y)
-    Player.super.new(self, x, y)
+function Player:new(image, x, y)
+    Player.super.new(self, image, x, y)
     self.health = PLAYER_HEALTH
     self.health_txt = love.graphics.newText(love.graphics.getFont(), self.health)
     self.width = PLAYER_WIDTH
@@ -26,7 +26,8 @@ end
 
 function Player:draw()
     love.graphics.draw(self.health_txt, PLAYER_HEALTH_X, PLAYER_HEALTH_Y, 0, 1, 1, 0, 0)
-    love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+    love.graphics.draw(self.image, self.x, self.y)
+    -- love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
 end
 
 function Player:updateHealthTxt()

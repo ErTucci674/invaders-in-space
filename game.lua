@@ -9,7 +9,7 @@ function Game:new()
     math.randomseed(os.time())
 
     -- Create Objects/Entities
-    player = Player(WINDOW_WIDTH_CENTER - PLAYER_WIDTH / 2, WINDOW_HEIGHT - PLAYER_HEIGHT * 2)
+    player = Player("pictures/player.png", WINDOW_WIDTH_CENTER - PLAYER_WIDTH / 2, WINDOW_HEIGHT - PLAYER_HEIGHT * 2)
 
     -- Create Projectiles
     projectiles_timer = PROJECTILES_WAIT
@@ -17,14 +17,28 @@ function Game:new()
 
     -- Create Enemies
     enemies_adjust = false
-    enemies_x_start = (WINDOW_WIDTH - (ENEMIES_COLS * ENEMY_WIDTH + (ENEMIES_COLS - 1) * ENEMIES_GAP)) / 2
-    enemies_y_start = 30
+    local enemies_x_start = (WINDOW_WIDTH - (ENEMIES_COLS * ENEMY_WIDTH + (ENEMIES_COLS - 1) * ENEMIES_GAP)) / 2
+    local enemies_y_start = 30
     enemies_direction = 1
+    
+    -- Every half number of enemy rows (round up) gains one additional health
+    local enemies_rows = {}
+    local enemies_to_insert = ENEMIES_ROWS
+    local health = 1
+    while(enemies_to_insert > 0) do
+        local rows = math.ceil(enemies_to_insert / 2)
+        for i=1,rows do
+            table.insert(enemies_rows, health)
+        end
+        enemies_to_insert = enemies_to_insert - rows
+        health = health + 1
+    end
+
     enemies = {}
-    for r=1,ENEMIES_ROWS do
+    for r=1,#enemies_rows do
         tmp_enemies = {}
         for c=1,ENEMIES_COLS do
-            enemy = Enemy(enemies_x_start + (ENEMY_WIDTH + ENEMIES_GAP) * (c - 1), enemies_y_start + (ENEMY_HEIGHT + ENEMIES_GAP) * (r - 1))
+            enemy = Enemy("pictures/enemies.png", enemies_x_start + (ENEMY_WIDTH + ENEMIES_GAP) * (c - 1), enemies_y_start + (ENEMY_HEIGHT + ENEMIES_GAP) * (r - 1), enemies_rows[#enemies_rows - r + 1])
             table.insert(tmp_enemies, enemy)
         end
         table.insert(enemies, tmp_enemies)
@@ -51,7 +65,7 @@ function Game:update(dt)
     -- Shoot Player's projectile
     if love.keyboard.isDown("space") and #projectiles < PROJECTILES_MAX and projectiles_timer >= PROJECTILES_WAIT then
         projectiles_timer = projectiles_timer - PROJECTILES_WAIT
-        projectile = Projectile(player.x + player.width / 2 - PROJECTILES_WIDTH / 2, player.y)
+        projectile = Projectile("pictures/projectile.png", player.x + player.width / 2 - PROJECTILES_WIDTH / 2, player.y)
         table.insert(projectiles, projectile)
     end
 
@@ -83,11 +97,14 @@ function Game:update(dt)
                     if (projectile:collision(enemy, -1)) then
                         projectiles_timer = PROJECTILES_WAIT
                         table.remove(projectiles, p)
-                        enemies[i][j] = 0
 
-                        -- Check if the whole column is zero
-                        if (j == 1 or j == #v) then
-                            enemies = enemy:removeColumn(enemies, j)
+                        enemies[i][j]:updateHealth(-1)
+                        if (enemies[i][j].health == 0) then
+                            enemies[i][j] = 0
+                            -- Check if the whole column is zero
+                            if (j == 1 or j == #v) then
+                                enemies = enemy:removeColumn(enemies, j)
+                            end
                         end
 
                         break
@@ -115,7 +132,7 @@ function Game:update(dt)
         if (enemies[e_row][e_col] == 0) then goto random_enemy end
 
         enemy = enemies[e_row][e_col]
-        e_projectile = Projectile(enemy.x + enemy.width / 2 - PROJECTILES_WIDTH / 2, enemy.y + enemy.height - PROJECTILES_HEIGHT)
+        e_projectile = Projectile("pictures/projectile.png", enemy.x + enemy.width / 2 - PROJECTILES_WIDTH / 2, enemy.y + enemy.height - PROJECTILES_HEIGHT)
         e_projectile.speed = ENEMIES_PROJECTILES_SPEED
         table.insert(e_projectiles, e_projectile)
         e_projectiles_wait = math.random(1, 3)

@@ -1,12 +1,13 @@
 Entity = Object:extend()
 
-function Entity:new(x, y)
+function Entity:new(image, x, y)
     self.health = 0
+    self.image = love.graphics.newImage(image)
+    self.image_width = self.image:getWidth()
+    self.image_height = self.image:getHeight()
+    self.texture = 0
     self.x = x
     self.y = y
-    self.width = 0
-    self.height = 0
-    self.speed = 0
 end
 
 function Entity:updateHealth(change)

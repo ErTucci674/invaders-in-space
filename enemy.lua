@@ -1,20 +1,36 @@
 Enemy = Entity:extend()
 
-function Enemy:new(x, y)
-    Enemy.super.new(self, x, y)
+function Enemy:new(image, x, y, health)
+    Enemy.super.new(self, image, x, y)
+    self.health = health
     self.width = ENEMY_WIDTH
     self.height = ENEMY_HEIGHT
     self.speed = ENEMY_SPEED
+
+    self.quads = {}
+    self:setQuads()
 end
 
 function Enemy:update(dt, direction)
+    self:setTexture()
     self.x = self.x + self.speed * direction * dt
 end
 
 function Enemy:draw()
-    love.graphics.setColor(255, 0, 0)
-    love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
-    love.graphics.setColor(255, 255, 255)
+    love.graphics.draw(self.image, self.texture, self.x, self.y)
+end
+
+-- Storing the image's quads (sections)
+function Enemy:setQuads()
+    for i=0,math.floor(self.image_width / self.width) do
+        quad = love.graphics.newQuad(1 + (i)*(self.width + 1), 1, self.width, self.height, self.image_width, self.image_height)
+        table.insert(self.quads, quad)
+    end
+end
+
+-- Enemy texture change depending on current health
+function Enemy:setTexture()
+    self.texture = self.quads[self.health]
 end
 
 function Enemy:adjust(enemies, direction)
@@ -49,6 +65,7 @@ function Enemy:adjust(enemies, direction)
     return enemies
 end
 
+-- Removing enemies' columns if none are present
 function Enemy:removeColumn(enemies, column)
     column_check = 1
 
@@ -88,6 +105,4 @@ function Enemy:enemiesCollision(enemies, e)
             end
         end
     end
-
-    -- 
 end

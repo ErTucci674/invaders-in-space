@@ -1,7 +1,7 @@
 Projectile = Entity:extend()
 
-function Projectile:new(x, y)
-    Projectile.super.new(self, x, y)
+function Projectile:new(image, x, y)
+    Projectile.super.new(self, image, x, y)
     self.width = PROJECTILES_WIDTH
     self.height = PROJECTILES_HEIGHT
     self.speed = PROJECTILES_SPEED
@@ -12,7 +12,7 @@ function Projectile:update(dt, direction)
 end
 
 function Projectile:draw()
-    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.draw(self.image, self.x, self.y)
 end
 
 function Projectile:collision(e, direction)
