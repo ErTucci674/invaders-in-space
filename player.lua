@@ -7,6 +7,13 @@ function Player:new(image, x, y)
     self.width = PLAYER_WIDTH
     self.height = PLAYER_HEIGHT
     self.speed = PLAYER_SPEED
+
+    self.quads = {}
+    self:setQuads()
+    self.current_texture = 1
+    self.texture = self.quads[self.current_texture]
+    self.texture_change = 0.1
+    self.texture_timer = 0
 end
 
 function Player:update(dt)
@@ -22,12 +29,36 @@ function Player:update(dt)
             self.x = WINDOW_WIDTH - self.width
         end
     end
+
+    -- Update projectile texture every "texture_change" seconds
+    if (self.texture_timer >= self.texture_change) then
+        self:updateTexture()
+        self.texture_timer = self.texture_timer - self.texture_change
+    else
+        self.texture_timer = self.texture_timer + dt
+    end
 end
 
 function Player:draw()
     love.graphics.draw(self.health_txt, PLAYER_HEALTH_X, PLAYER_HEALTH_Y, 0, 1, 1, 0, 0)
-    love.graphics.draw(self.image, self.x, self.y)
-    -- love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+    love.graphics.draw(self.image, self.texture, self.x, self.y)
+end
+
+-- Storing the image's quads (sections)
+function Player:setQuads()
+    for i=0,math.floor(self.image_width / self.width) - 1 do
+        local quad = love.graphics.newQuad((i)*(self.width + 1), 0, self.width, self.height, self.image_width, self.image_height)
+        table.insert(self.quads, quad)
+    end
+end
+
+-- Player Animation
+function Player:updateTexture()
+    self.current_texture = self.current_texture + 1
+    if (self.current_texture > #self.quads) then
+        self.current_texture = 1
+    end
+    self.texture = self.quads[self.current_texture]
 end
 
 function Player:updateHealthTxt()

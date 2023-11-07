@@ -7,10 +7,7 @@ function love.load()
     
     game = Game()
 
-    sx = love.graphics.getWidth() / DEFAULT_WIDTH
-    sy = love.graphics.getHeight() / DEFAULT_HEIGHT
-
-    love.graphics.setDefaultFilter("nearest", "nearest")
+    adjustWindow()
 end
 
 function love.update(dt)
@@ -22,12 +19,24 @@ function love.draw()
     game:draw()
 end
 
--- TEMPORARY: close window
+function adjustWindow()
+    sx = love.graphics.getWidth() / DEFAULT_WIDTH
+    sy = love.graphics.getHeight() / DEFAULT_HEIGHT
+    love.graphics.setDefaultFilter("nearest", "nearest")
+end
+
+-- TEMPORARY: window control
 function love.keypressed(key)
+    -- Close the game
     if key == "q" then
         love.event.quit()
+    -- Reset game
     elseif key == "r" then
         love.event.quit('restart')
+    -- Toggle Full Screen mode
+    elseif key == "f" then
+        love.window.setFullscreen(true, "desktop")
+        adjustWindow()
     end
 end
 

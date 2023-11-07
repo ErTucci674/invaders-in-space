@@ -105,6 +105,11 @@ function Game:update(dt)
                             if (j == 1 or j == #v) then
                                 enemies = enemy:removeColumn(enemies, j)
                             end
+                            -- Chech if all enemies are dead
+                            if (#enemies[1] <= 0) then
+                                print('DEAD')
+                                love.event.quit('restart')
+                            end
                         end
 
                         break
@@ -129,13 +134,15 @@ function Game:update(dt)
         ::random_enemy::
         local e_row = math.random(1, #enemies)
         local e_col = math.random(1, #enemies[1])
-        if (enemies[e_row][e_col] == 0) then goto random_enemy end
-
-        enemy = enemies[e_row][e_col]
-        e_projectile = Projectile("pictures/projectile.png", enemy.x + enemy.width / 2 - PROJECTILES_WIDTH / 2, enemy.y + enemy.height - PROJECTILES_HEIGHT)
-        e_projectile.speed = ENEMIES_PROJECTILES_SPEED
-        table.insert(e_projectiles, e_projectile)
-        e_projectiles_wait = math.random(1, 3)
+        if (enemies[e_row][e_col] == 0) then
+            goto random_enemy
+        elseif (enemies[e_row][e_col]) then
+            enemy = enemies[e_row][e_col]
+            e_projectile = Projectile("pictures/e_projectile.png", enemy.x + enemy.width / 2 - PROJECTILES_WIDTH / 2, enemy.y + enemy.height - PROJECTILES_HEIGHT)
+            e_projectile.speed = ENEMIES_PROJECTILES_SPEED
+            table.insert(e_projectiles, e_projectile)
+            e_projectiles_wait = math.random(1, 3)
+        end
     end
 
     -- Move enemies' projectiles, if any
@@ -156,6 +163,7 @@ function Game:update(dt)
             table.remove(e_projectiles, p)
        end
     end
+
 end
 
 function Game:draw()

@@ -23,7 +23,7 @@ end
 -- Storing the image's quads (sections)
 function Enemy:setQuads()
     for i=0,math.floor(self.image_width / self.width) do
-        quad = love.graphics.newQuad(1 + (i)*(self.width + 1), 1, self.width, self.height, self.image_width, self.image_height)
+        local quad = love.graphics.newQuad((i)*(self.width + 1), 0, self.width + 1, self.height, self.image_width, self.image_height)
         table.insert(self.quads, quad)
     end
 end
