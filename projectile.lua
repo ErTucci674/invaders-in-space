@@ -1,6 +1,6 @@
 Projectile = Entity:extend()
 
-function Projectile:new(image, x, y)
+function Projectile:new(image, sound, x, y)
     Projectile.super.new(self, image, x, y)
     self.width = PROJECTILES_WIDTH
     self.height = PROJECTILES_HEIGHT
@@ -12,6 +12,8 @@ function Projectile:new(image, x, y)
     self.texture = self.quads[self.current_texture]
     self.texture_change = 0.1
     self.texture_timer = 0
+
+    self:playSound(sound)
 end
 
 function Projectile:update(dt, direction)

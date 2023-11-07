@@ -13,3 +13,8 @@ end
 function Entity:updateHealth(change)
     self.health = self.health + change
 end
+
+function Entity:playSound(sound)
+    love.audio.stop(sound)
+    love.audio.play(sound)
+end

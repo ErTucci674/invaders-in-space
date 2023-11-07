@@ -8,6 +8,8 @@ function Game:new()
     
     math.randomseed(os.time())
 
+    loadSounds()
+
     -- Create Objects/Entities
     player = Player("pictures/player.png", WINDOW_WIDTH_CENTER - PLAYER_WIDTH / 2, WINDOW_HEIGHT - PLAYER_HEIGHT * 2)
 
@@ -65,7 +67,8 @@ function Game:update(dt)
     -- Shoot Player's projectile
     if love.keyboard.isDown("space") and #projectiles < PROJECTILES_MAX and projectiles_timer >= PROJECTILES_WAIT then
         projectiles_timer = projectiles_timer - PROJECTILES_WAIT
-        projectile = Projectile("pictures/projectile.png", player.x + player.width / 2 - PROJECTILES_WIDTH / 2, player.y)
+        projectile = Projectile("pictures/projectile.png", projectile_sound, player.x + player.width / 2 - PROJECTILES_WIDTH / 2, player.y)
+        -- playSound(projectile_sound)
         table.insert(projectiles, projectile)
     end
 
@@ -138,9 +141,10 @@ function Game:update(dt)
             goto random_enemy
         elseif (enemies[e_row][e_col]) then
             enemy = enemies[e_row][e_col]
-            e_projectile = Projectile("pictures/e_projectile.png", enemy.x + enemy.width / 2 - PROJECTILES_WIDTH / 2, enemy.y + enemy.height - PROJECTILES_HEIGHT)
+            e_projectile = Projectile("pictures/e_projectile.png", e_projectile_sound, enemy.x + enemy.width / 2 - PROJECTILES_WIDTH / 2, enemy.y + enemy.height - PROJECTILES_HEIGHT)
             e_projectile.speed = ENEMIES_PROJECTILES_SPEED
             table.insert(e_projectiles, e_projectile)
+            -- playSound(e_projectile_sound)
             e_projectiles_wait = math.random(1, 3)
         end
     end
@@ -189,3 +193,13 @@ function Game:draw()
         p:draw()
     end
 end
+
+function loadSounds()
+    projectile_sound = love.audio.newSource("sounds/projectile_sound.mp3", "static")
+    e_projectile_sound = love.audio.newSource("sounds/e_projectile_sound.mp3", "static")
+end
+
+-- function playSound(sound)
+--     love.audio.stop(sound)
+--     love.audio.play(sound)
+-- end
