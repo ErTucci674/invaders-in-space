@@ -6,7 +6,6 @@ function Projectile:new(image, sound, x, y)
     self.height = PROJECTILES_HEIGHT
     self.speed = PROJECTILES_SPEED
 
-    self.quads = {}
     self:setQuads()
     self.current_texture = 1
     self.texture = self.quads[self.current_texture]
@@ -30,14 +29,6 @@ end
 
 function Projectile:draw()
     love.graphics.draw(self.image, self.texture, self.x, self.y)
-end
-
--- Storing the image's quads (sections)
-function Projectile:setQuads()
-    for i=0,math.floor(self.image_width / self.width) - 1 do
-        local quad = love.graphics.newQuad((i)*(self.width + 1), 0, self.width, self.height, self.image_width, self.image_height)
-        table.insert(self.quads, quad)
-    end
 end
 
 -- Projectile Animation

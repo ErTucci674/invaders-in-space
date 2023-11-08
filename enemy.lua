@@ -7,7 +7,6 @@ function Enemy:new(image, x, y, health)
     self.height = ENEMY_HEIGHT
     self.speed = ENEMY_SPEED
 
-    self.quads = {}
     self:setQuads()
 end
 

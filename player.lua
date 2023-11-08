@@ -8,7 +8,6 @@ function Player:new(image, x, y)
     self.height = PLAYER_HEIGHT
     self.speed = PLAYER_SPEED
 
-    self.quads = {}
     self:setQuads()
     self.current_texture = 1
     self.texture = self.quads[self.current_texture]
@@ -42,14 +41,6 @@ end
 function Player:draw()
     love.graphics.draw(self.health_txt, PLAYER_HEALTH_X, PLAYER_HEALTH_Y, 0, 1, 1, 0, 0)
     love.graphics.draw(self.image, self.texture, self.x, self.y)
-end
-
--- Storing the image's quads (sections)
-function Player:setQuads()
-    for i=0,math.floor(self.image_width / self.width) - 1 do
-        local quad = love.graphics.newQuad((i)*(self.width + 1), 0, self.width, self.height, self.image_width, self.image_height)
-        table.insert(self.quads, quad)
-    end
 end
 
 -- Player Animation
