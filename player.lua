@@ -3,7 +3,6 @@ Player = Entity:extend()
 function Player:new(image, x, y)
     Player.super.new(self, image, x, y)
     self.health = PLAYER_HEALTH
-    self.health_txt = love.graphics.newText(love.graphics.getFont(), self.health)
     self.width = PLAYER_WIDTH
     self.height = PLAYER_HEIGHT
     self.speed = PLAYER_SPEED
@@ -39,7 +38,7 @@ function Player:update(dt)
 end
 
 function Player:draw()
-    love.graphics.draw(self.health_txt, PLAYER_HEALTH_X, PLAYER_HEALTH_Y, 0, 1, 1, 0, 0)
+    self:drawHealth()
     love.graphics.draw(self.image, self.texture, self.x, self.y)
 end
 
@@ -52,13 +51,17 @@ function Player:updateTexture()
     self.texture = self.quads[self.current_texture]
 end
 
-function Player:updateHealthTxt()
-    self:checkDeath()
-    self.health_txt:set(self.health)
+-- Show player's health as the first quad of the player's picture
+function Player:drawHealth()
+    local scale = 0.6
+    for i=0,self.health - 1 do
+        love.graphics.draw(self.image, self.quads[1], (self.width / 2 + i * (self.width + 5)) * scale, (self.height / 2) * scale, 0, scale, scale)
+    end
 end
 
 function Player:checkDeath()
     if (self.health == 0) then
-        love.event.quit('restart')
+        return true
     end
+    return false
 end

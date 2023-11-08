@@ -94,14 +94,27 @@ function Enemy:enemiesCollision(enemies, e)
             if (enemies[j][i] ~= 0) then
                 -- table.insert(row, enemies[j][i])
                 if (enemies[j][i].y + enemies[j][i].height > WINDOW_HEIGHT) then
-                    love.event.quit('restart')
+                    return true
                 elseif (enemies[j][i].y + enemies[j][i].height > e.y) then
                     if (enemies[j][i].x > e.x and enemies[j][i].x < e.x + e.width or enemies[j][i].x + enemies[j][i].width > e.x and enemies[j][i].x + enemies[j][i].width < e.x + e.width) then
-                        love.event.quit('restart')
+                        return true
                     end
                 end
                 break
             end
         end
     end
+
+    return false
+end
+
+function Enemy:updateSpeed(enemies, change)
+    for i,v in ipairs(enemies) do
+        for j,enemy in ipairs(v) do
+            if (enemy ~= 0) then
+                enemy.speed = enemy.speed + change
+            end
+        end
+    end
+    return enemies
 end

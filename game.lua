@@ -11,6 +11,9 @@ function Game:new()
     loadPictures()
     loadSounds()
 
+    -- Check if player lost
+    game_over = false
+
     -- Create Objects/Entities
     player = Player(player_pic, WINDOW_WIDTH_CENTER - PLAYER_WIDTH / 2, WINDOW_HEIGHT - PLAYER_HEIGHT * 2)
 
@@ -57,6 +60,10 @@ function Game:new()
 end
 
 function Game:update(dt)
+    if (game_over) then
+        love.event.quit('restart')
+    end
+
     -- Shoot no more than the maximum number of player's projectiles every "projectiles_wait" seconds
     if projectiles_timer < PROJECTILES_WAIT then
         projectiles_timer = projectiles_timer + dt
@@ -116,6 +123,8 @@ function Game:update(dt)
                             if (#enemies[1] <= 0) then
                                 print('DEAD')
                                 love.event.quit('restart')
+                            else
+                                enemies = enemy:updateSpeed(enemies, 0.5)
                             end
                         end
 
@@ -148,7 +157,6 @@ function Game:update(dt)
             e_projectile = Projectile(e_projectile_pic, e_projectile_sound, enemy.x + enemy.width / 2 - PROJECTILES_WIDTH / 2, enemy.y + enemy.height - PROJECTILES_HEIGHT)
             e_projectile.speed = ENEMIES_PROJECTILES_SPEED
             table.insert(e_projectiles, e_projectile)
-            -- playSound(e_projectile_sound)
             e_projectiles_wait = math.random(1, 3)
         end
     end
@@ -161,7 +169,7 @@ function Game:update(dt)
         if (p:collision(player, 1)) then
             table.remove(e_projectiles, i)
             player:updateHealth(-1)
-            player:updateHealthTxt()
+            game_over = player:checkDeath()
         end
     end
 
