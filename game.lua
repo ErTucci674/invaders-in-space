@@ -51,6 +51,9 @@ function Game:new()
     e_projectiles_wait = ENEMIES_PROJECTILES_WAIT
     e_projectiles_timer = 0
     e_projectiles = {}
+
+    back_music:setVolume(0.3)
+    love.audio.play(back_music)
 end
 
 function Game:update(dt)
@@ -203,6 +206,7 @@ function loadPictures()
 end
 
 function loadSounds()
-    projectile_sound = love.audio.newSource("sounds/projectile_sound.mp3", "static")
-    e_projectile_sound = love.audio.newSource("sounds/e_projectile_sound.mp3", "static")
+    back_music = love.audio.newSource("sounds/game.mp3", "stream")
+    projectile_sound = love.audio.newSource("sounds/projectile.mp3", "static")
+    e_projectile_sound = love.audio.newSource("sounds/e_projectile.mp3", "static")
 end
