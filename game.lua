@@ -1,7 +1,6 @@
 Game = Object:extend()
 
 function Game:new()
-    require("entity")
     require("player")
     require("projectile")
     require("enemy")

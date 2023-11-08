@@ -3,22 +3,28 @@ function love.load()
     require("globals")
 
     Object = require("classic/classic")
+    require("entity")
+    require("background")
     require("game")
     
+    background = Background()
     game = Game()
 
     adjustWindow()
 end
 
 function love.update(dt)
+    background:update(dt)
     game:update(dt)
 end
 
 function love.draw()
     love.graphics.scale(sx,sy)
+    background:draw()
     game:draw()
 end
 
+-- Scale items depending on window size
 function adjustWindow()
     sx = love.graphics.getWidth() / DEFAULT_WIDTH
     sy = love.graphics.getHeight() / DEFAULT_HEIGHT
