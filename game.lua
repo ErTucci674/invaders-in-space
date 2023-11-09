@@ -63,6 +63,23 @@ function Game:update(dt)
         love.event.quit('restart')
     end
 
+    timersUpdate(dt)
+    player:update(dt)
+    projectilesUpdate(dt)
+    aliensUpdate(dt)
+    eProjectilesUpdate(dt)
+
+end
+
+function Game:draw()
+    playerDraw()
+    projectilesDraw()
+    enemiesDraw()
+    eProjectilesDraw()
+end
+
+-- UPDATE FUNCTIONS --
+function timersUpdate(dt)
     -- Shoot no more than the maximum number of player's projectiles every "projectiles_wait" seconds
     if projectiles_timer < PROJECTILES_WAIT then
         projectiles_timer = projectiles_timer + dt
@@ -71,14 +88,13 @@ function Game:update(dt)
     if e_projectiles_timer < ENEMIES_PROJECTILES_WAIT then
         e_projectiles_timer = e_projectiles_timer + dt
     end
+end
 
-    player:update(dt)
-
+function projectilesUpdate(dt)
     -- Shoot Player's projectile
     if love.keyboard.isDown("space") and #projectiles < PROJECTILES_MAX and projectiles_timer >= PROJECTILES_WAIT then
         projectiles_timer = projectiles_timer - PROJECTILES_WAIT
         projectile = Projectile(projectile_pic, projectile_sound, player.x + player.width / 2 - PROJECTILES_WIDTH / 2, player.y)
-        -- playSound(projectile_sound)
         table.insert(projectiles, projectile)
     end
 
@@ -93,7 +109,9 @@ function Game:update(dt)
             table.remove(projectiles, i)
         end
     end
+end
 
+function aliensUpdate(dt)
     -- Aliens movement
     for i,v in ipairs(enemies) do
         for j,enemy in ipairs(v) do
@@ -133,7 +151,6 @@ function Game:update(dt)
             end
         end
     end
-
     -- Adjust the enemies in the screen
     if (enemies_adjust) then
         enemies = adjustEnemies(enemies, enemies_direction * -1)
@@ -142,7 +159,9 @@ function Game:update(dt)
 
     -- Check Enemies colliding with the player
     game_over = enemiesCollision(enemies, player)
+end
 
+function eProjectilesUpdate(dt)
     -- Create Enemies projectiles
     if (e_projectiles_timer >= e_projectiles_wait) then
         e_projectiles_timer = e_projectiles_timer - e_projectiles_wait
@@ -178,19 +197,20 @@ function Game:update(dt)
             table.remove(e_projectiles, p)
        end
     end
-
 end
 
-function Game:draw()
-    -- Show player
+-- DRAW FUNCTIONS --
+function playerDraw()
     player:draw()
+end
 
-    -- Show player's projectiles
+function projectilesDraw()
     for i,p in ipairs(projectiles) do
         p:draw()
     end
+end
 
-    -- Draw if an alien is present in the current position (rather than a zero)
+function enemiesDraw()
     for r,v in ipairs(enemies) do
         for c,enemy in ipairs(v) do
             if (enemies[r][c] ~= 0) then
@@ -198,13 +218,15 @@ function Game:draw()
             end
         end
     end
+end
 
-    -- Show enemies projectiles
+function eProjectilesDraw()
     for i,p in ipairs(e_projectiles) do
         p:draw()
     end
 end
 
+-- LOAD FUNCTIONS --
 function loadPictures()
     player_pic = love.graphics.newImage("pictures/player.png")
     projectile_pic = love.graphics.newImage("pictures/projectile.png")

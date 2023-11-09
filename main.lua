@@ -12,7 +12,7 @@ function love.load()
 
     adjustWindow()
 
-    love.audio.setVolume(1)
+    love.audio.setVolume(0)
 end
 
 function love.update(dt)
