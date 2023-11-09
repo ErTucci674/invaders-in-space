@@ -11,6 +11,8 @@ function love.load()
     game = Game()
 
     adjustWindow()
+
+    love.audio.setVolume(0)
 end
 
 function love.update(dt)
