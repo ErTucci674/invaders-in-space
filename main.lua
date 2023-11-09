@@ -5,25 +5,36 @@ function love.load()
     Object = require("classic/classic")
     require("entity")
     require("background")
+    require("menu")
     require("game")
     
     background = Background()
+    menu = Menu()
     game = Game()
 
     adjustWindow()
+
+    current_page = "menu"
 
     love.audio.setVolume(0)
 end
 
 function love.update(dt)
-    background:update(dt)
-    game:update(dt)
+    if (current_page == "menu") then
+
+    elseif (current_page == "game") then
+        background:update(dt)
+        game:update(dt)
+    end
 end
 
 function love.draw()
     love.graphics.scale(sx,sy)
-    background:draw()
-    game:draw()
+    if (current_page == "menu") then
+    elseif (current_page == "game") then
+        background:draw()
+        game:draw()
+    end
 end
 
 -- Scale items depending on window size
