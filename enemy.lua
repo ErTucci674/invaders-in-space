@@ -32,7 +32,7 @@ function Enemy:setTexture()
     self.texture = self.quads[self.health]
 end
 
-function Enemy:adjust(enemies, direction)
+function adjustEnemies(enemies, direction)
     -- Adjust aliens position in the screen depending on their direction
     -- Adjust to the right
     if (direction == 1) then
@@ -65,7 +65,7 @@ function Enemy:adjust(enemies, direction)
 end
 
 -- Removing enemies' columns if none are present
-function Enemy:removeColumn(enemies, column)
+function removeColumn(enemies, column)
     column_check = 1
 
     -- Remove column if every row is zero
@@ -78,21 +78,20 @@ function Enemy:removeColumn(enemies, column)
 
             if (column == 0) then return enemies
             elseif (column > 1) then column_check = column - 1 end
-            enemies = self:removeColumn(enemies, column_check)
+            enemies = removeColumn(enemies, column_check)
         end
     end
 
     return enemies
 end
 
-function Enemy:enemiesCollision(enemies, e)
+function enemiesCollision(enemies, e)
     -- Temporary list to check "hit-row"
     local row = {}
 
     for i=1,#enemies[1] do
         for j=#enemies,1,-1 do
             if (enemies[j][i] ~= 0) then
-                -- table.insert(row, enemies[j][i])
                 if (enemies[j][i].y + enemies[j][i].height > WINDOW_HEIGHT) then
                     return true
                 elseif (enemies[j][i].y + enemies[j][i].height > e.y) then
@@ -108,7 +107,7 @@ function Enemy:enemiesCollision(enemies, e)
     return false
 end
 
-function Enemy:updateSpeed(enemies, change)
+function updateEnemiesSpeed(enemies, change)
     for i,v in ipairs(enemies) do
         for j,enemy in ipairs(v) do
             if (enemy ~= 0) then

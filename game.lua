@@ -116,14 +116,14 @@ function Game:update(dt)
                             enemies[i][j] = 0
                             -- Check if the whole column is zero
                             if (j == 1 or j == #v) then
-                                enemies = enemy:removeColumn(enemies, j)
+                                enemies = removeColumn(enemies, j)
                             end
                             -- Chech if all enemies are dead
                             if (#enemies[1] <= 0) then
                                 print('DEAD')
                                 love.event.quit('restart')
                             else
-                                enemies = enemy:updateSpeed(enemies, 0.5)
+                                enemies = updateEnemiesSpeed(enemies, 0.5)
                             end
                         end
 
@@ -136,12 +136,12 @@ function Game:update(dt)
 
     -- Adjust the enemies in the screen
     if (enemies_adjust) then
-        enemies = enemy:adjust(enemies, enemies_direction * -1)
+        enemies = adjustEnemies(enemies, enemies_direction * -1)
         enemies_adjust = false
     end
 
     -- Check Enemies colliding with the player
-    enemy:enemiesCollision(enemies, player)
+    game_over = enemiesCollision(enemies, player)
 
     -- Create Enemies projectiles
     if (e_projectiles_timer >= e_projectiles_wait) then

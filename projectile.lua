@@ -12,7 +12,7 @@ function Projectile:new(image, sound, x, y)
     self.texture_change = 0.1
     self.texture_timer = 0
 
-    self:playSound(sound)
+    playSound(sound)
 end
 
 function Projectile:update(dt, direction)

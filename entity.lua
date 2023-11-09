@@ -26,7 +26,7 @@ function Entity:setQuads()
     end
 end
 
-function Entity:playSound(sound)
+function playSound(sound)
     love.audio.stop(sound)
     love.audio.play(sound)
 end

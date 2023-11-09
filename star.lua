@@ -9,6 +9,8 @@ function Star:new(image, x, y)
         self.height = PLANETS_HEIGHT
         self:setQuads()
     end
+
+    self.quad = self.quads[math.random(1,3)]
 end
 
 function Star:update(dt)
@@ -20,5 +22,5 @@ function Star:drawStar()
 end
 
 function Star:drawPlanet()
-    love.graphics.draw(self.image, self.quads[1], self.x, self.y)
+    love.graphics.draw(self.image, self.quad, self.x, self.y)
 end
