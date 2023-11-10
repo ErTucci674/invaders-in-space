@@ -3,6 +3,7 @@ function love.load()
     require("globals")
 
     Object = require("classic/classic")
+    require("text")
     require("entity")
     require("background")
     require("menu")
@@ -21,7 +22,7 @@ end
 
 function love.update(dt)
     if (current_page == "menu") then
-
+        menu:update(dt)
     elseif (current_page == "game") then
         background:update(dt)
         game:update(dt)
@@ -31,6 +32,7 @@ end
 function love.draw()
     love.graphics.scale(sx,sy)
     if (current_page == "menu") then
+        menu:draw()
     elseif (current_page == "game") then
         background:draw()
         game:draw()
