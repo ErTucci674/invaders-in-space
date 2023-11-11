@@ -6,7 +6,7 @@ function Text:new(string, font, x, y)
     self.text = love.graphics.newText(self.font, self.string)
     self.width = self.text:getWidth()
     self.height = self.text:getHeight()
-    self.x = x
+    self.x = x - self.width / 2
     self.y = y
 end
 
