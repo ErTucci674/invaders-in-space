@@ -5,8 +5,14 @@ function Menu:new()
     font = love.graphics.newFont()
 
     options = {}
+    local tot = #strings
+    local half = math.floor(tot / 2)
+    local text_height = #strings[1]
+    local text_distance = text_height * 4
+    local text_start = WINDOW_HEIGHT_CENTER - text_distance * half
+
     for i,string in ipairs(strings) do
-        table.insert(options, Text(string, font, WINDOW_WIDTH / 2, 100))
+        table.insert(options, Text(string, font, WINDOW_WIDTH / 2, text_start + (i * text_distance)))
     end
 end
 

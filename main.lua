@@ -15,19 +15,9 @@ function love.load()
 
     adjustWindow()
 
-    current_page = "game"
+    current_page = "menu"
 
     love.audio.setVolume(0)
-
-    local screenWidth, screenHeight = love.window.getDesktopDimensions()
-    local windowWidth = love.graphics.getWidth()
-    local windowHeight = love.graphics.getHeight()
-    
-    local ratio = screenHeight / windowHeight
-    local newWindowWidth = windowWidth * ratio
-
-    blackRecWidth = (screenWidth - newWindowWidth) / 2
-    blackRecHeight = screenHeight
 end
 
 function love.update(dt)
@@ -40,17 +30,13 @@ function love.update(dt)
 end
 
 function love.draw()
-    -- love.graphics.scale(sy,sy)
+    love.graphics.scale(sx,sy)
 
     if (current_page == "menu") then
         menu:draw()
     elseif (current_page == "game") then
         background:draw()
         game:draw()
-    end
-
-    if (love.window.getFullscreen()) then
-        sidesDraw()
     end
 end
 
@@ -93,9 +79,4 @@ function showArray(arr)
         print()
     end
     print(' --- ')
-end
-
-function sidesDraw()
-    love.graphics.rectangle("fill", 0, 0, blackRecWidth, blackRecHeight)
-    love.graphics.rectangle("fill", 1920 - blackRecWidth, 0, blackRecWidth, blackRecHeight)
 end
