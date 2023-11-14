@@ -16,6 +16,7 @@ function Text:update(dt)
         if (love.mouse.isDown(1)) then
             if (self.string == "Start") then
                 current_page = "game"
+                playSound(back_music)
             elseif (self.string == "Tutorial") then
                 current_page = "tutorial"
             elseif (self.string == "Quit") then

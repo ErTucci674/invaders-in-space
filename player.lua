@@ -30,7 +30,7 @@ function Player:update(dt)
 
     -- Update projectile texture every "texture_change" seconds
     if (self.texture_timer >= self.texture_change) then
-        self:updateTexture()
+        self:tectureUpdate()
         self.texture_timer = self.texture_timer - self.texture_change
     else
         self.texture_timer = self.texture_timer + dt
@@ -38,12 +38,11 @@ function Player:update(dt)
 end
 
 function Player:draw()
-    self:drawHealth()
     love.graphics.draw(self.image, self.texture, self.x, self.y)
 end
 
 -- Player Animation
-function Player:updateTexture()
+function Player:tectureUpdate()
     self.current_texture = self.current_texture + 1
     if (self.current_texture > #self.quads) then
         self.current_texture = 1
@@ -52,7 +51,7 @@ function Player:updateTexture()
 end
 
 -- Show player's health as the first quad of the player's picture
-function Player:drawHealth()
+function Player:healthDraw()
     local scale = 0.6
     for i=0,self.health - 1 do
         love.graphics.draw(self.image, self.quads[1], (self.width / 2 + i * (self.width + 5)) * scale, (self.height / 2) * scale, 0, scale, scale)

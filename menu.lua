@@ -1,11 +1,11 @@
 Menu = Object:extend()
 
 function Menu:new()
-    strings = {"Start", "Tutorial", "Quit"}
-    font = love.graphics.newFont()
+    local strings = {"Start", "Tutorial", "Quit"}
+    local font = love.graphics.newFont()
 
     -- Creating and storing the menu selectable options
-    options = {}
+    menu_options = {}
     local half = 0
     if (#strings > 1) then
         half = math.ceil(#strings / 2)
@@ -14,19 +14,15 @@ function Menu:new()
     local text_start = WINDOW_HEIGHT_CENTER - (text_distance / 2) * half
 
     for i,string in ipairs(strings) do
-        table.insert(options, Text(string, font, WINDOW_WIDTH / 2, text_start + text_distance * (i - 1)))
+        table.insert(menu_options, Text(string, font, WINDOW_WIDTH_CENTER, text_start + text_distance * (i - 1)))
     end
 end
 
 function Menu:update(dt)
     local mousex, mousey = love.mouse.getPosition()
-    for i,option in ipairs(options) do
-        option:update(dt)
-    end
+    arrayUpdate(dt,menu_options)
 end
 
 function Menu:draw()
-    for i,option in ipairs(options) do
-        option:draw()
-    end
+    arrayDraw(menu_options)
 end

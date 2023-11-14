@@ -25,8 +25,3 @@ function Entity:setQuads()
         table.insert(self.quads, quad)
     end
 end
-
-function playSound(sound)
-    love.audio.stop(sound)
-    love.audio.play(sound)
-end

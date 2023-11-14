@@ -7,9 +7,6 @@ function Game:new()
     
     math.randomseed(os.time())
 
-    loadPictures()
-    loadSounds()
-
     -- Check if player lost
     game_over = false
 
@@ -54,8 +51,8 @@ function Game:new()
     e_projectiles_timer = 0
     e_projectiles = {}
 
-    back_music:setVolume(0.3)
-    love.audio.play(back_music)
+    -- back_music:setVolume(0.3)
+    -- love.audio.play(back_music)
 end
 
 function Game:update(dt)
@@ -96,6 +93,7 @@ function projectilesUpdate(dt)
         projectiles_timer = projectiles_timer - PROJECTILES_WAIT
         projectile = Projectile(projectile_pic, projectile_sound, player.x + player.width / 2 - PROJECTILES_WIDTH / 2, player.y)
         table.insert(projectiles, projectile)
+        playSound(projectile.sound)
     end
 
     -- Move Player's projectiles, if any
@@ -201,6 +199,7 @@ end
 
 -- DRAW FUNCTIONS --
 function playerDraw()
+    player:healthDraw()
     player:draw()
 end
 
@@ -224,18 +223,4 @@ function eProjectilesDraw()
     for i,p in ipairs(e_projectiles) do
         p:draw()
     end
-end
-
--- LOAD FUNCTIONS --
-function loadPictures()
-    player_pic = love.graphics.newImage("pictures/player.png")
-    projectile_pic = love.graphics.newImage("pictures/projectile.png")
-    enemies_pic = love.graphics.newImage("pictures/enemies.png")
-    e_projectile_pic = love.graphics.newImage("pictures/e_projectile.png")
-end
-
-function loadSounds()
-    back_music = love.audio.newSource("sounds/game.mp3", "stream")
-    projectile_sound = love.audio.newSource("sounds/projectile.mp3", "static")
-    e_projectile_sound = love.audio.newSource("sounds/e_projectile.mp3", "static")
 end

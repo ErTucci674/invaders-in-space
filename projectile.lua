@@ -5,14 +5,13 @@ function Projectile:new(image, sound, x, y)
     self.width = PROJECTILES_WIDTH
     self.height = PROJECTILES_HEIGHT
     self.speed = PROJECTILES_SPEED
+    self.sound = sound
 
     self:setQuads()
     self.current_texture = 1
     self.texture = self.quads[self.current_texture]
     self.texture_change = 0.1
     self.texture_timer = 0
-
-    playSound(sound)
 end
 
 function Projectile:update(dt, direction)

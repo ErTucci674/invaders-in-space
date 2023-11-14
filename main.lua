@@ -10,6 +10,9 @@ function love.load()
     require("game")
     require("tutorial")
     
+    loadPictures()
+    loadSounds()
+
     background = Background()
     menu = Menu()
     game = Game()
@@ -19,7 +22,7 @@ function love.load()
 
     current_page = "menu"
 
-    love.audio.setVolume(0)
+    love.audio.setVolume(0.5)
 end
 
 function love.update(dt)
@@ -51,6 +54,29 @@ function adjustWindow()
     sx = love.graphics.getWidth() / DEFAULT_WIDTH
     sy = love.graphics.getHeight() / DEFAULT_HEIGHT
     love.graphics.setDefaultFilter("nearest", "nearest")
+end
+
+-- Drawing functions
+function arrayUpdate(dt, array)
+    for i,obj in ipairs(array) do
+        obj:update(dt)
+    end
+end
+
+function arrayDraw(array)
+    for i,obj in ipairs(array) do
+        obj:draw()
+    end
+end
+
+-- Sound playing functions
+function setupSound()
+    back_music:setVolume(0.3)
+end
+
+function playSound(sound)
+    love.audio.stop(sound)
+    love.audio.play(sound)
 end
 
 -- TEMPORARY: window control
@@ -85,4 +111,18 @@ function showArray(arr)
         print()
     end
     print(' --- ')
+end
+
+-- LOAD FUNCTIONS --
+function loadPictures()
+    player_pic = love.graphics.newImage("pictures/player.png")
+    projectile_pic = love.graphics.newImage("pictures/projectile.png")
+    enemies_pic = love.graphics.newImage("pictures/enemies.png")
+    e_projectile_pic = love.graphics.newImage("pictures/e_projectile.png")
+end
+
+function loadSounds()
+    back_music = love.audio.newSource("sounds/game.mp3", "stream")
+    projectile_sound = love.audio.newSource("sounds/projectile.mp3", "static")
+    e_projectile_sound = love.audio.newSource("sounds/e_projectile.mp3", "static")
 end
