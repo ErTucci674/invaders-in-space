@@ -1,18 +1,20 @@
 Menu = Object:extend()
 
 function Menu:new()
-    strings = {"Start", "Quit"}
+    strings = {"Start", "Tutorial", "Quit"}
     font = love.graphics.newFont()
 
+    -- Creating and storing the menu selectable options
     options = {}
-    local tot = #strings
-    local half = math.floor(tot / 2)
-    local text_height = #strings[1]
-    local text_distance = text_height * 4
-    local text_start = WINDOW_HEIGHT_CENTER - text_distance * half
+    local half = 0
+    if (#strings > 1) then
+        half = math.ceil(#strings / 2)
+    end
+    local text_distance = 20
+    local text_start = WINDOW_HEIGHT_CENTER - (text_distance / 2) * half
 
     for i,string in ipairs(strings) do
-        table.insert(options, Text(string, font, WINDOW_WIDTH / 2, text_start + (i * text_distance)))
+        table.insert(options, Text(string, font, WINDOW_WIDTH / 2, text_start + text_distance * (i - 1)))
     end
 end
 

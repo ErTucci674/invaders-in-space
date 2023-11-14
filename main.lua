@@ -8,10 +8,12 @@ function love.load()
     require("background")
     require("menu")
     require("game")
+    require("tutorial")
     
     background = Background()
     menu = Menu()
     game = Game()
+    tutorial = Tutorial()
 
     adjustWindow()
 
@@ -26,6 +28,8 @@ function love.update(dt)
     elseif (current_page == "game") then
         background:update(dt)
         game:update(dt)
+    elseif (current_page == "tutorial") then
+        tutorial:update(dt)
     end
 end
 
@@ -37,6 +41,8 @@ function love.draw()
     elseif (current_page == "game") then
         background:draw()
         game:draw()
+    elseif (current_page == "tutorial") then
+        tutorial:draw()
     end
 end
 

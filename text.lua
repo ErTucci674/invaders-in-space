@@ -7,14 +7,23 @@ function Text:new(string, font, x, y)
     self.width = self.text:getWidth()
     self.height = self.text:getHeight()
     self.x = x - self.width / 2
-    self.y = y
+    self.y = y - self.height / 2
 end
 
 function Text:update(dt)
     if (self:mouseOver()) then
-        love.graphics.setColor(255, 0, 0)
+        self.text:set({{255,0,0}, self.string})
+        if (love.mouse.isDown(1)) then
+            if (self.string == "Start") then
+                current_page = "game"
+            elseif (self.string == "Tutorial") then
+                current_page = "tutorial"
+            elseif (self.string == "Quit") then
+                love.event.quit()
+            end
+        end
     else
-        love.graphics.setColor(255, 255, 255)
+        self.text:set({{255,255,255}, self.string})
     end
 end
 

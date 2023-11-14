@@ -8,6 +8,7 @@ function Enemy:new(image, x, y, health)
     self.speed = ENEMY_SPEED
 
     self:setQuads()
+    self:setTexture()
 end
 
 function Enemy:update(dt, direction)
