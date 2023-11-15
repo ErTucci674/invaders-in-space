@@ -37,6 +37,13 @@ function Player:update(dt)
     end
 end
 
+function Player:tutorialUpdate(dt)
+    self.x = self.x + self.speed * dt
+    if (self.x <= self.start_x or self.x >= self.start_x + 50) then
+        self.speed = self.speed * (-1)
+    end
+end
+
 function Player:draw()
     love.graphics.draw(self.image, self.texture, self.x, self.y)
 end

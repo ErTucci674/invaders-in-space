@@ -16,6 +16,10 @@ function Enemy:update(dt, direction)
     self.x = self.x + self.speed * direction * dt
 end
 
+function Enemy:tutorialUpdate(dt)
+
+end
+
 function Enemy:draw()
     love.graphics.draw(self.image, self.texture, self.x, self.y)
 end

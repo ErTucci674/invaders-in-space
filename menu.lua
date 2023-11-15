@@ -6,12 +6,8 @@ function Menu:new()
 
     -- Creating and storing the menu selectable options
     menu_options = {}
-    local half = 0
-    if (#strings > 1) then
-        half = math.ceil(#strings / 2)
-    end
-    local text_distance = 20
-    local text_start = WINDOW_HEIGHT_CENTER - (text_distance / 2) * half
+    local text_distance = 40
+    local text_start = WINDOW_HEIGHT_CENTER - 0.5 * (#strings - 1) * text_distance
 
     for i,string in ipairs(strings) do
         table.insert(menu_options, Text(string, font, WINDOW_WIDTH_CENTER, text_start + text_distance * (i - 1)))

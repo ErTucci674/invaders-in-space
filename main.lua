@@ -20,7 +20,7 @@ function love.load()
 
     adjustWindow()
 
-    current_page = "menu"
+    current_page = "tutorial"
 
     love.audio.setVolume(0.5)
 end
@@ -65,7 +65,14 @@ end
 
 function arrayDraw(array)
     for i,obj in ipairs(array) do
-        obj:draw()
+        -- Check if it is list
+        if (#obj > 0) then
+            for j,quad in ipairs(obj) do
+                quad:draw()
+            end
+        else
+            obj:draw()
+        end
     end
 end
 
@@ -77,6 +84,11 @@ end
 function playSound(sound)
     love.audio.stop(sound)
     love.audio.play(sound)
+end
+
+-- Values Check
+function isEven(num)
+    return num % 2 == 0
 end
 
 -- TEMPORARY: window control
@@ -111,6 +123,11 @@ function showArray(arr)
         print()
     end
     print(' --- ')
+end
+
+function centerLines()
+    love.graphics.rectangle("fill", 0, WINDOW_HEIGHT_CENTER, WINDOW_WIDTH, 1)
+    love.graphics.rectangle("fill", WINDOW_WIDTH_CENTER, 0, 1, WINDOW_HEIGHT)
 end
 
 -- LOAD FUNCTIONS --

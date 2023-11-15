@@ -26,6 +26,10 @@ function Projectile:update(dt, direction)
     end
 end
 
+function Projectile:tutorialUpdate(dt)
+
+end
+
 function Projectile:draw()
     love.graphics.draw(self.image, self.texture, self.x, self.y)
 end

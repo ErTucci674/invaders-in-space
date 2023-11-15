@@ -12,6 +12,8 @@ function Entity:new(image, x, y)
 
     self.x = x
     self.y = y
+
+    self:setStart()
 end
 
 function Entity:updateHealth(change)
@@ -24,4 +26,9 @@ function Entity:setQuads()
         local quad = love.graphics.newQuad((i)*(self.width + 1), 0, self.width, self.height, self.image_width, self.image_height)
         table.insert(self.quads, quad)
     end
+end
+
+function Entity:setStart()
+    self.start_x = self.x
+    self.start_y = self.y
 end

@@ -50,9 +50,6 @@ function Game:new()
     e_projectiles_wait = ENEMIES_PROJECTILES_WAIT
     e_projectiles_timer = 0
     e_projectiles = {}
-
-    -- back_music:setVolume(0.3)
-    -- love.audio.play(back_music)
 end
 
 function Game:update(dt)
