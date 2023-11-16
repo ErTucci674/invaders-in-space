@@ -18,16 +18,15 @@ function Projectile:update(dt, direction)
     self.y = self.y + self.speed * direction * dt
 
     -- Update projectile texture every "texture_change" seconds
-    if (self.texture_timer >= self.texture_change) then
-        self:updateTexture()
-        self.texture_timer = self.texture_timer - self.texture_change
-    else
-        self.texture_timer = self.texture_timer + dt
-    end
+    self:textureUpdate(dt)
 end
 
 function Projectile:tutorialUpdate(dt)
-
+    self.y = self.y - self.speed * dt
+    if (self.y <= self.start_y - 20) then
+        self.y = self.start_y
+    end
+    self:textureUpdate(dt)
 end
 
 function Projectile:draw()
@@ -35,12 +34,17 @@ function Projectile:draw()
 end
 
 -- Projectile Animation
-function Projectile:updateTexture()
-    self.current_texture = self.current_texture + 1
-    if (self.current_texture > #self.quads) then
-        self.current_texture = 1
+function Projectile:textureUpdate(dt)
+    if (self.texture_timer >= self.texture_change) then
+        self.current_texture = self.current_texture + 1
+        if (self.current_texture > #self.quads) then
+            self.current_texture = 1
+        end
+        self.texture = self.quads[self.current_texture]
+        self.texture_timer = self.texture_timer - self.texture_change
+    else
+        self.texture_timer = self.texture_timer + dt
     end
-    self.texture = self.quads[self.current_texture]
 end
 
 function Projectile:collision(e, direction)

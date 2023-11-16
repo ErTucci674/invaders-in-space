@@ -24,7 +24,7 @@ function Tutorial:new()
 
     tutorial_lines = {}
 
-    local text_distance = 100
+    local text_distance = 80
     local picture_distance = 50
     local text_start = WINDOW_HEIGHT_CENTER - 0.5 * (#tutorial_strings - 1) * text_distance
 
@@ -74,7 +74,6 @@ function Tutorial:update(dt)
 end
 
 function Tutorial:draw()
-    centerLines()
     arrayDraw(tutorial_lines)
     arrayDraw(tutorial_pictures)
 end

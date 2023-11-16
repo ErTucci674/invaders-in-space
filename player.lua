@@ -27,14 +27,7 @@ function Player:update(dt)
             self.x = WINDOW_WIDTH - self.width
         end
     end
-
-    -- Update projectile texture every "texture_change" seconds
-    if (self.texture_timer >= self.texture_change) then
-        self:tectureUpdate()
-        self.texture_timer = self.texture_timer - self.texture_change
-    else
-        self.texture_timer = self.texture_timer + dt
-    end
+    self:textureUpdate(dt)
 end
 
 function Player:tutorialUpdate(dt)
@@ -42,6 +35,7 @@ function Player:tutorialUpdate(dt)
     if (self.x <= self.start_x or self.x >= self.start_x + 50) then
         self.speed = self.speed * (-1)
     end
+    self:textureUpdate(dt)
 end
 
 function Player:draw()
@@ -49,12 +43,20 @@ function Player:draw()
 end
 
 -- Player Animation
-function Player:tectureUpdate()
-    self.current_texture = self.current_texture + 1
-    if (self.current_texture > #self.quads) then
-        self.current_texture = 1
+function Player:textureUpdate(dt)
+    if (self.texture_timer >= self.texture_change) then
+        -- Change current texture/frame with the following one 
+        self.current_texture = self.current_texture + 1
+        if (self.current_texture > #self.quads) then
+            self.current_texture = 1
+        end
+        self.texture = self.quads[self.current_texture]
+        -- Update timer
+        self.texture_timer = self.texture_timer - self.texture_change
+    else
+        -- Increase timer
+        self.texture_timer = self.texture_timer + dt
     end
-    self.texture = self.quads[self.current_texture]
 end
 
 -- Show player's health as the first quad of the player's picture

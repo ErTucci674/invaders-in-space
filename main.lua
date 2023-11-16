@@ -9,6 +9,7 @@ function love.load()
     require("menu")
     require("game")
     require("tutorial")
+    require("button")
     
     loadPictures()
     loadSounds()
@@ -20,7 +21,7 @@ function love.load()
 
     adjustWindow()
 
-    current_page = "tutorial"
+    current_page = "menu"
 
     love.audio.setVolume(0.5)
 end
