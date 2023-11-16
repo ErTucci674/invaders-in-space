@@ -12,7 +12,11 @@ function Button:update(dt)
 end
 
 function Button:draw()
+    if (self:mouseOver()) then
+        love.graphics.setColor(0,0,255)
+    end
     love.graphics.rectangle("line", self.x, self.y, self.width, self.height)
+    love.graphics.setColor(255,255,255)
 end
 
 function Button:mouseOver()

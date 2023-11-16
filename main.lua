@@ -21,31 +21,33 @@ function love.load()
 
     adjustWindow()
 
-    current_page = "menu"
+    current_page = "Menu"
 
     love.audio.setVolume(0.5)
 end
 
 function love.update(dt)
-    if (current_page == "menu") then
+    if (current_page == "Menu") then
         menu:update(dt)
-    elseif (current_page == "game") then
+    elseif (current_page == "Start") then
         background:update(dt)
         game:update(dt)
-    elseif (current_page == "tutorial") then
+    elseif (current_page == "Tutorial") then
         tutorial:update(dt)
+    elseif (current_page == "Quit") then
+        love.event.quit()
     end
 end
 
 function love.draw()
     love.graphics.scale(sx,sy)
 
-    if (current_page == "menu") then
+    if (current_page == "Menu") then
         menu:draw()
-    elseif (current_page == "game") then
+    elseif (current_page == "Start") then
         background:draw()
         game:draw()
-    elseif (current_page == "tutorial") then
+    elseif (current_page == "Tutorial") then
         tutorial:draw()
     end
 end

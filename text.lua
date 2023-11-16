@@ -11,21 +11,7 @@ function Text:new(string, font, x, y)
 end
 
 function Text:update(dt)
-    if (self:mouseOver()) then
-        self.text:set({{255,0,0}, self.string})
-        if (love.mouse.isDown(1)) then
-            if (self.string == "Start") then
-                current_page = "game"
-                playSound(back_music)
-            elseif (self.string == "Tutorial") then
-                current_page = "tutorial"
-            elseif (self.string == "Quit") then
-                love.event.quit()
-            end
-        end
-    else
-        self.text:set({{255,255,255}, self.string})
-    end
+
 end
 
 function Text:draw()

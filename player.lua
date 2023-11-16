@@ -12,6 +12,10 @@ function Player:new(image, x, y)
     self.texture = self.quads[self.current_texture]
     self.texture_change = 0.1
     self.texture_timer = 0
+
+    self.immortal = false
+    self.hit_stop = 0.1
+    self.hit_timer = self.hit_stop
 end
 
 function Player:update(dt)
@@ -44,19 +48,35 @@ end
 
 -- Player Animation
 function Player:textureUpdate(dt)
-    if (self.texture_timer >= self.texture_change) then
+    if (self.hit_timer < self.hit_stop) then
+        -- Select 'hit' texture
+        self.current_texture = #self.quads
+        self:textureChange()
+
+        self.hit_timer = self.hit_timer + dt
+
+        -- Reset the 'immortal' state
+        if (self.hit_timer >= self.hit_stop) then
+            self.immortal = false
+        end
+    elseif (self.texture_timer >= self.texture_change) then
+
         -- Change current texture/frame with the following one 
         self.current_texture = self.current_texture + 1
-        if (self.current_texture > #self.quads) then
+        if (self.current_texture > #self.quads - 1) then
             self.current_texture = 1
         end
-        self.texture = self.quads[self.current_texture]
+        self:textureChange()
         -- Update timer
         self.texture_timer = self.texture_timer - self.texture_change
     else
         -- Increase timer
         self.texture_timer = self.texture_timer + dt
     end
+end
+
+function Player:textureChange()
+    self.texture = self.quads[self.current_texture]
 end
 
 -- Show player's health as the first quad of the player's picture
@@ -72,4 +92,12 @@ function Player:checkDeath()
         return true
     end
     return false
+end
+
+function Player:hit(change)
+    if (not self.immortal) then
+        self.immortal = true
+        self:updateHealth(change)
+        self.hit_timer = 0
+    end
 end

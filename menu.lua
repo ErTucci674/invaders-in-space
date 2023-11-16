@@ -28,8 +28,14 @@ function Menu:new()
 end
 
 function Menu:update(dt)
-    arrayUpdate(dt,menu_options)
-    arrayUpdate(dt,menu_buttons)
+    -- Check if player clicked any of the buttons
+    for i,button in ipairs(menu_buttons) do
+        if (button:mouseOver()) then
+            if (love.mouse.isDown(1)) then
+                current_page = menu_options[i].string
+            end
+        end
+    end
 end
 
 function Menu:draw()
