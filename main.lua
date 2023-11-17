@@ -8,6 +8,10 @@ function love.load()
     require("background")
     require("menu")
     require("game")
+    require("player")
+    require("projectile")
+    require("enemy")
+    require("explosion")
     require("tutorial")
     require("button")
     
@@ -139,10 +143,12 @@ function loadPictures()
     projectile_pic = love.graphics.newImage("pictures/projectile.png")
     enemies_pic = love.graphics.newImage("pictures/enemies.png")
     e_projectile_pic = love.graphics.newImage("pictures/e_projectile.png")
+    explosion_pic = love.graphics.newImage("pictures/explosion.png")
 end
 
 function loadSounds()
     back_music = love.audio.newSource("sounds/game.mp3", "stream")
     projectile_sound = love.audio.newSource("sounds/projectile.mp3", "static")
     e_projectile_sound = love.audio.newSource("sounds/e_projectile.mp3", "static")
+    player_hit_sound = love.audio.newSource("sounds/player_hit.mp3", "static")
 end

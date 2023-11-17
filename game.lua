@@ -1,10 +1,6 @@
 Game = Object:extend()
 
-function Game:new()
-    require("player")
-    require("projectile")
-    require("enemy")
-    
+function Game:new()  
     math.randomseed(os.time())
 
     -- Check if player lost
@@ -50,6 +46,9 @@ function Game:new()
     e_projectiles_wait = ENEMIES_PROJECTILES_WAIT
     e_projectiles_timer = 0
     e_projectiles = {}
+
+    -- Explosions
+    explosions = {}
 end
 
 function Game:update(dt)
@@ -62,14 +61,14 @@ function Game:update(dt)
     projectilesUpdate(dt)
     aliensUpdate(dt)
     eProjectilesUpdate(dt)
-
 end
 
 function Game:draw()
+    arrayDraw(explosions)
     playerDraw()
-    projectilesDraw()
+    arrayDraw(projectiles)
     enemiesDraw()
-    eProjectilesDraw()
+    arrayDraw(e_projectiles)
 end
 
 -- UPDATE FUNCTIONS --
@@ -165,10 +164,11 @@ function eProjectilesUpdate(dt)
         if (enemies[e_row][e_col] == 0) then
             goto random_enemy
         elseif (enemies[e_row][e_col]) then
-            enemy = enemies[e_row][e_col]
+            local enemy = enemies[e_row][e_col]
             e_projectile = Projectile(e_projectile_pic, e_projectile_sound, enemy.x + enemy.width / 2 - PROJECTILES_WIDTH / 2, enemy.y + enemy.height - PROJECTILES_HEIGHT)
             e_projectile.speed = ENEMIES_PROJECTILES_SPEED
             table.insert(e_projectiles, e_projectile)
+            playSound(e_projectile_sound)
             e_projectiles_wait = math.random(1, 3)
         end
     end
@@ -200,12 +200,6 @@ function playerDraw()
     player:draw()
 end
 
-function projectilesDraw()
-    for i,p in ipairs(projectiles) do
-        p:draw()
-    end
-end
-
 function enemiesDraw()
     for r,v in ipairs(enemies) do
         for c,enemy in ipairs(v) do
@@ -213,11 +207,5 @@ function enemiesDraw()
                 enemy:draw()
             end
         end
-    end
-end
-
-function eProjectilesDraw()
-    for i,p in ipairs(e_projectiles) do
-        p:draw()
     end
 end

@@ -97,6 +97,7 @@ end
 function Player:hit(change)
     if (not self.immortal) then
         self.immortal = true
+        playSound(player_hit_sound)
         self:updateHealth(change)
         self.hit_timer = 0
     end
