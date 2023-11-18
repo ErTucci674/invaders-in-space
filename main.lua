@@ -25,7 +25,7 @@ function love.load()
 
     adjustWindow()
 
-    current_page = "Menu"
+    current_page = "Start"
 
     love.audio.setVolume(0.5)
 end
@@ -151,4 +151,5 @@ function loadSounds()
     projectile_sound = love.audio.newSource("sounds/projectile.mp3", "static")
     e_projectile_sound = love.audio.newSource("sounds/e_projectile.mp3", "static")
     player_hit_sound = love.audio.newSource("sounds/player_hit.mp3", "static")
+    explosion_sound = love.audio.newSource("sounds/explosion.mp3", "static")
 end

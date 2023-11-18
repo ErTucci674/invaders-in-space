@@ -61,6 +61,7 @@ function Game:update(dt)
     projectilesUpdate(dt)
     aliensUpdate(dt)
     eProjectilesUpdate(dt)
+    explosionsUpdate(dt)
 end
 
 function Game:draw()
@@ -125,11 +126,17 @@ function aliensUpdate(dt)
 
                         enemies[i][j]:updateHealth(-1)
                         if (enemies[i][j].health == 0) then
+                            -- Explosion animation
+                            table.insert(explosions, Explosion(explosion_pic, enemies[i][j].x, enemies[i][j].y))
+                            playSound(explosion_sound)
+
                             enemies[i][j] = 0
                             -- Check if the whole column is zero
                             if (j == 1 or j == #v) then
                                 enemies = removeColumn(enemies, j)
                             end
+
+
                             -- Chech if all enemies are dead
                             if (#enemies[1] <= 0) then
                                 love.event.quit('restart')
@@ -191,6 +198,15 @@ function eProjectilesUpdate(dt)
        if (e_projectiles[p].y > WINDOW_HEIGHT) then
             table.remove(e_projectiles, p)
        end
+    end
+end
+
+function explosionsUpdate(dt)
+    for i=#explosions,1,-1 do
+        explosions[i]:update(dt)
+        if (explosions[i]:done()) then
+            table.remove(explosions, i)
+        end
     end
 end
 

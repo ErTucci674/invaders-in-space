@@ -11,7 +11,7 @@ function Explosion:new(image, x, y)
     self.texture_change = 0.1
     self.texture_timer = 0
 
-    print(self.image, self.texture, self.x, self.y)
+    self.exploded = false
 end
 
 function Explosion:update(dt)
@@ -28,17 +28,24 @@ end
 
 function Explosion:textureUpdate(dt)
     if (self.texture_timer >= self.texture_change) then
-
         -- Change current texture/frame with the following one 
         self.current_texture = self.current_texture + 1
         if (self.current_texture > #self.quads) then
-            self.current_texture = 1
+            self.exploded = true
+        else
+            self:textureChange()
         end
-        self:textureChange()
         -- Update timer
         self.texture_timer = self.texture_timer - self.texture_change
     else
         -- Increase timer
         self.texture_timer = self.texture_timer + dt
     end
+end
+
+function Explosion:done()
+    if (self.exploded) then
+        return true
+    end
+    return false
 end
