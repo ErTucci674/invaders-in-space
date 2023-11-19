@@ -1,8 +1,6 @@
 Game = Object:extend()
 
 function Game:new()  
-    math.randomseed(os.time())
-
     -- Check if player lost
     game_over = false
 
@@ -136,7 +134,6 @@ function aliensUpdate(dt)
                                 enemies = removeColumn(enemies, j)
                             end
 
-
                             -- Chech if all enemies are dead
                             if (#enemies[1] <= 0) then
                                 love.event.quit('restart')
@@ -187,7 +184,6 @@ function eProjectilesUpdate(dt)
         -- Check if enemy's projectile collided with player
         if (p:collision(player, 1)) then
             table.remove(e_projectiles, i)
-            -- player:updateHealth(-1)
             player:hit(-1)
             game_over = player:checkDeath()
         end

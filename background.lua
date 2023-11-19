@@ -24,6 +24,10 @@ function Background:draw()
     self:drawStars()
 end
 
+function Background:titleDraw()
+    love.graphics.draw(title_pic, WINDOW_WIDTH_CENTER - title_pic:getWidth() / 2, 100)
+end
+
 function Background:loadPictures()
     star_pic = love.graphics.newImage("pictures/star.png")
     planets_pic = love.graphics.newImage("pictures/planets.png")

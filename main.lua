@@ -14,18 +14,22 @@ function love.load()
     require("explosion")
     require("tutorial")
     require("button")
+    require("gameover")
     
     loadPictures()
     loadSounds()
+
+    math.randomseed(os.time())
 
     background = Background()
     menu = Menu()
     game = Game()
     tutorial = Tutorial()
+    gameover = Gameover()
 
     adjustWindow()
 
-    current_page = "Start"
+    current_page = "Menu"
 
     love.audio.setVolume(0.5)
 end
@@ -38,6 +42,8 @@ function love.update(dt)
         game:update(dt)
     elseif (current_page == "Tutorial") then
         tutorial:update(dt)
+    elseif (current_page == "Game Over") then
+        gameover:update(dt)
     elseif (current_page == "Quit") then
         love.event.quit()
     end
@@ -47,12 +53,16 @@ function love.draw()
     love.graphics.scale(sx,sy)
 
     if (current_page == "Menu") then
+        background:draw()
+        background:titleDraw()
         menu:draw()
     elseif (current_page == "Start") then
         background:draw()
         game:draw()
     elseif (current_page == "Tutorial") then
         tutorial:draw()
+    elseif (current_page == "Game Over") then
+        gameover:draw()
     end
 end
 
@@ -139,11 +149,14 @@ end
 
 -- LOAD FUNCTIONS --
 function loadPictures()
+    title_pic = love.graphics.newImage("pictures/title.png")
     player_pic = love.graphics.newImage("pictures/player.png")
     projectile_pic = love.graphics.newImage("pictures/projectile.png")
     enemies_pic = love.graphics.newImage("pictures/enemies.png")
     e_projectile_pic = love.graphics.newImage("pictures/e_projectile.png")
     explosion_pic = love.graphics.newImage("pictures/explosion.png")
+    win_pic = love.graphics.newImage("pictures/win.png")
+    lose_pic = love.graphics.newImage("pictures/lose.png")
 end
 
 function loadSounds()
@@ -152,4 +165,8 @@ function loadSounds()
     e_projectile_sound = love.audio.newSource("sounds/e_projectile.mp3", "static")
     player_hit_sound = love.audio.newSource("sounds/player_hit.mp3", "static")
     explosion_sound = love.audio.newSource("sounds/explosion.mp3", "static")
+end
+
+function gameOver()
+
 end
