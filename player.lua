@@ -2,7 +2,7 @@ Player = Entity:extend()
 
 function Player:new(image, x, y)
     Player.super.new(self, image, x, y)
-    self.health = PLAYER_HEALTH
+    self.health = 1 --PLAYER_HEALTH
     self.width = PLAYER_WIDTH
     self.height = PLAYER_HEIGHT
     self.speed = PLAYER_SPEED
@@ -16,6 +16,8 @@ function Player:new(image, x, y)
     self.immortal = false
     self.hit_stop = 0.1
     self.hit_timer = self.hit_stop
+
+    self.visibility = true
 end
 
 function Player:update(dt)
@@ -43,7 +45,9 @@ function Player:tutorialUpdate(dt)
 end
 
 function Player:draw()
-    love.graphics.draw(self.image, self.texture, self.x, self.y)
+    if (self.visibility) then
+        love.graphics.draw(self.image, self.texture, self.x, self.y)
+    end
 end
 
 -- Player Animation

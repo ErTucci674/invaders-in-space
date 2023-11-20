@@ -7,10 +7,6 @@ function Button:new(x, y, width, height)
     self.y = y - height / 4
 end
 
-function Button:update(dt)
-    
-end
-
 function Button:draw()
     if (self:mouseOver()) then
         love.graphics.setColor(0,0,255)

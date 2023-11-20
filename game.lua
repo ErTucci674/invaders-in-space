@@ -47,11 +47,23 @@ function Game:new()
 
     -- Explosions
     explosions = {}
+
+    -- Game Over
+    game_over_timer = 0
+    game_over_wait = 3
 end
 
 function Game:update(dt)
     if (game_over) then
-        love.event.quit('restart')
+        if (gameover.status == "lose") then
+            player.visibility = false
+            generateExplosion(player.x, player.y)
+        end
+        if (game_over_timer >= game_over_wait) then
+            current_page = "Game Over"
+        else
+            game_over_timer = game_over_timer + dt
+        end
     end
 
     timersUpdate(dt)
@@ -125,8 +137,7 @@ function aliensUpdate(dt)
                         enemies[i][j]:updateHealth(-1)
                         if (enemies[i][j].health == 0) then
                             -- Explosion animation
-                            table.insert(explosions, Explosion(explosion_pic, enemies[i][j].x, enemies[i][j].y))
-                            playSound(explosion_sound)
+                            generateExplosion(enemies[i][j].x, enemies[i][j].y)
 
                             enemies[i][j] = 0
                             -- Check if the whole column is zero
@@ -136,7 +147,8 @@ function aliensUpdate(dt)
 
                             -- Chech if all enemies are dead
                             if (#enemies[1] <= 0) then
-                                love.event.quit('restart')
+                                gameover:resultUpdate()
+                                current_page = "Game Over"
                             else
                                 enemies = updateEnemiesSpeed(enemies, 0.5)
                             end
@@ -220,4 +232,10 @@ function enemiesDraw()
             end
         end
     end
+end
+
+-- GENERATE ENTITIES --
+function generateExplosion(x, y)
+    table.insert(explosions, Explosion(explosion_pic, x, y))
+    playSound(explosion_sound)
 end

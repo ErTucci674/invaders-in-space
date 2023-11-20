@@ -29,7 +29,7 @@ function love.load()
 
     adjustWindow()
 
-    current_page = "Menu"
+    current_page = "Start"
 
     love.audio.setVolume(0.5)
 end
@@ -169,4 +169,10 @@ end
 
 function gameOver()
 
+end
+
+function reset()
+    background = Background()
+    game = Game()
+    gameover = Gameover()
 end

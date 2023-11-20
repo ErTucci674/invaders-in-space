@@ -10,10 +10,6 @@ function Text:new(string, font, x, y)
     self.y = y - self.height / 2
 end
 
-function Text:update(dt)
-
-end
-
 function Text:draw()
     love.graphics.draw(self.text, self.x, self.y)
 end
