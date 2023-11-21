@@ -11,11 +11,24 @@ function Explosion:new(image, x, y)
     self.texture_change = 0.1
     self.texture_timer = 0
 
+    self.tutorial = false
     self.exploded = false
 end
 
 function Explosion:update(dt)
     self:textureUpdate(dt)
+end
+
+function Explosion:tutorialUpdate(dt)
+    -- if self.tutorial then
+    --     if self.exploded then
+    --         self.current_texture = 1
+    --         self.exploded = false
+    --     end
+    --     self:textureUpdate(dt)
+    -- else
+    --     self.tutorial = true
+    -- end
 end
 
 function Explosion:draw()

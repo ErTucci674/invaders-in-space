@@ -23,7 +23,7 @@ end
 
 function Projectile:tutorialUpdate(dt)
     self.y = self.y - self.speed * dt
-    if (self.y <= self.start_y - 20) then
+    if (self.y <= self.start_y - PROJECTILES_TUTORIAL_HEIGHT) then
         self.y = self.start_y
     end
     self:textureUpdate(dt)

@@ -50,9 +50,9 @@ function Background:generateStars(dt)
         -- Create a random number and select whether generate a star or planet
         local rand = math.random(1,100)
         if (rand <= 80) then
-            table.insert(self.stars, Star(star_pic, math.random(0, WINDOW_WIDTH), 0))
+            table.insert(self.stars, Star(star_pic, math.random(0, WINDOW_WIDTH), WINDOW_HEIGHT))
         else
-            table.insert(self.planets, Star(planets_pic, math.random(0, WINDOW_WIDTH), -PLANETS_HEIGHT))
+            table.insert(self.planets, Star(planets_pic, math.random(0, WINDOW_WIDTH), WINDOW_HEIGHT + PLANETS_HEIGHT))
         end
 
         -- Reset timer and randomize a new max
@@ -84,12 +84,12 @@ end
 
 function Background:removeStars()
     for i=#self.stars,1,-1 do
-        if (self.stars[i].y >= WINDOW_HEIGHT) then
+        if (self.stars[i].y <= 0) then
             table.remove(self.stars, i)
         end
     end
     for i=#self.planets,1,-1 do
-        if (self.planets[i].y >= WINDOW_HEIGHT) then
+        if (self.planets[i].y <= -PLANETS_HEIGHT) then
             table.remove(self.planets, i)
         end
     end

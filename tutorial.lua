@@ -19,7 +19,12 @@ function Tutorial:new()
             Enemy(enemies_pic, 0, 0, 1),
             Enemy(enemies_pic, 0, 0, 2),
             Enemy(enemies_pic, 0, 0, 3)
-        }
+        },
+        {
+            Enemy(enemies_pic, 0, 0, 1),
+            Explosion(explosion_pic, 0, 0)
+        },
+
     }
 
     tutorial_lines = {}
@@ -45,7 +50,7 @@ function Tutorial:new()
     for i,picture in ipairs(tutorial_pictures) do
         -- check if it is a list
         if (#picture > 0) then
-            for j,quad in ipairs(picture) do
+             for j,quad in ipairs(picture) do
                 quad.x = max_string + picture_distance + quad.width * (j - 1)
                 quad.y = tutorial_lines[i].y - quad.height / 2
                 quad:setStart()

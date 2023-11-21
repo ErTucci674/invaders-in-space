@@ -29,7 +29,7 @@ function love.load()
 
     adjustWindow()
 
-    current_page = "Start"
+    current_page = "Tutorial"
 
     love.audio.setVolume(0.5)
 end
@@ -165,10 +165,6 @@ function loadSounds()
     e_projectile_sound = love.audio.newSource("sounds/e_projectile.mp3", "static")
     player_hit_sound = love.audio.newSource("sounds/player_hit.mp3", "static")
     explosion_sound = love.audio.newSource("sounds/explosion.mp3", "static")
-end
-
-function gameOver()
-
 end
 
 function reset()
