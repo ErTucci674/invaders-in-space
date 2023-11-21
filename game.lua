@@ -51,19 +51,19 @@ function Game:new()
 
     -- Game Over
     self.game_over_timer = 0
-    self.game_over_wait = 3
+    self.game_over_wait = 2
 end
 
 function Game:update(dt)
     if (self.game_over) then
         self:gameOver(dt)
+    else
+        self:timersUpdate(dt)
+        self.player:update(dt)
+        self:projectilesUpdate(dt)
+        self:aliensUpdate(dt)
+        self:eProjectilesUpdate(dt)
     end
-
-    self:timersUpdate(dt)
-    self.player:update(dt)
-    self:projectilesUpdate(dt)
-    self:aliensUpdate(dt)
-    self:eProjectilesUpdate(dt)
     self:explosionsUpdate(dt)
 end
 
@@ -238,12 +238,15 @@ function Game:gameOver(dt)
     if (gameover.status == "lose") then
         if (not self.player_dead) then
             self.player.visibility = false
-            self:generateExplosion(self.player.x, self.player.y)                
+            self:generateExplosion(self.player.x, self.player.y)
+            self.player_dead = true                
         end
         if (self.game_over_timer >= self.game_over_wait) then
             current_page = "Game Over"
         else
             self.game_over_timer = self.game_over_timer + dt
         end
+    else
+        current_page = "Game Over"
     end
 end
