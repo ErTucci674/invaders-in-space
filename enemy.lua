@@ -29,6 +29,10 @@ function Enemy:setTexture()
     self.texture = self.quads[self.health]
 end
 
+function Enemy:updateSpeed(change)
+    self.speed = self.speed + change
+end
+
 function adjustEnemies(enemies, direction)
     -- Adjust aliens position in the screen depending on their direction
     -- Adjust to the right
@@ -102,15 +106,4 @@ function enemiesCollision(enemies, e)
     end
 
     return false
-end
-
-function updateEnemiesSpeed(enemies, change)
-    for i,v in ipairs(enemies) do
-        for j,enemy in ipairs(v) do
-            if (enemy ~= 0) then
-                enemy.speed = enemy.speed + change
-            end
-        end
-    end
-    return enemies
 end

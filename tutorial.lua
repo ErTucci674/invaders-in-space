@@ -9,8 +9,8 @@ function Tutorial:new()
         "3 aliens - 3 difficulties",
         "Shoot the aliens before they reach the bottom",
         "Don't let the aliens shoot you",
-        "Kill the aliens fast, or they will outrun you!",
-        "At any time, press Escape to go back to the Menu"
+        "Enraged by the death of their comrades, they will waste no time in annihilating you",
+        "(At any time, press Escape to go back to the Menu)"
     }
 
     tutorial_pictures = {

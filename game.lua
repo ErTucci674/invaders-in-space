@@ -43,6 +43,7 @@ function Game:new()
 
     -- Enemies Projectiles
     self.e_projectiles_wait = ENEMIES_PROJECTILES_WAIT
+    self.e_projectiles_dec = 0
     self.e_projectiles_timer = 0
     self.e_projectiles = {}
 
@@ -143,8 +144,17 @@ function Game:aliensUpdate(dt)
                                 gameover:resultUpdate()
                                 current_page = "Game Over"
                             else
-                                self.enemies = updateEnemiesSpeed(self.enemies, 1)
+                                for i,v in ipairs(self.enemies) do
+                                    for j, enemy in ipairs(v) do
+                                        if (enemy ~= 0) then
+                                            enemy:updateSpeed(ENEMIES_SPEED_INC)
+                                        end
+                                    end
+                                end
                             end
+
+                            -- Increase projectiles spawning time
+                            self.e_projectiles_dec = self.e_projectiles_dec + ENEMIES_PROJECTILES_DEC
                         end
 
                         break
@@ -178,7 +188,7 @@ function Game:eProjectilesUpdate(dt)
             e_projectile.speed = ENEMIES_PROJECTILES_SPEED
             table.insert(self.e_projectiles, e_projectile)
             playSound(e_projectile_sound)
-            self.e_projectiles_wait = math.random(1, 3)
+            self.e_projectiles_wait = math.random(1, (3 - self.e_projectiles_dec))
         end
     end
 
