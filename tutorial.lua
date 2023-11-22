@@ -9,7 +9,8 @@ function Tutorial:new()
         "3 aliens - 3 difficulties",
         "Shoot the aliens before they reach the bottom",
         "Don't let the aliens shoot you",
-        "Kill the aliens fast, or they will outrun you!"
+        "Kill the aliens fast, or they will outrun you!",
+        "At any time, press Escape to go back to the Menu"
     }
 
     tutorial_pictures = {
@@ -21,11 +22,17 @@ function Tutorial:new()
             Enemy(enemies_pic, 0, 0, 3)
         },
         {
+            Projectile(projectile_pic, projectile_sound, 0, 0),
             Enemy(enemies_pic, 0, 0, 1),
             Explosion(explosion_pic, 0, 0)
         },
-
+        {
+            Projectile(projectile_pic, projectile_sound, 0, 0),
+            Player(player_pic, 0, 0),
+            Explosion(explosion_pic, 0, 0)
+        },
     }
+    tutorial_pictures[1].tutorial_animation = true
 
     tutorial_lines = {}
 

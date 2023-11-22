@@ -27,9 +27,9 @@ function love.load()
     tutorial = Tutorial()
     gameover = Gameover()
 
-    adjustWindow()
+    current_page = "Menu"
 
-    current_page = "Tutorial"
+    current_music = back_music
 
     love.audio.setVolume(0.5)
 end
@@ -50,8 +50,6 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.scale(sx,sy)
-
     if (current_page == "Menu") then
         background:draw()
         background:titleDraw()
@@ -62,15 +60,9 @@ function love.draw()
     elseif (current_page == "Tutorial") then
         tutorial:draw()
     elseif (current_page == "Game Over") then
+        love.audio.stop(back_music)
         gameover:draw()
     end
-end
-
--- Scale items depending on window size
-function adjustWindow()
-    sx = love.graphics.getWidth() / DEFAULT_WIDTH
-    sy = love.graphics.getHeight() / DEFAULT_HEIGHT
-    love.graphics.setDefaultFilter("nearest", "nearest")
 end
 
 -- Drawing functions
@@ -110,20 +102,16 @@ end
 
 -- TEMPORARY: window control
 function love.keypressed(key)
+    -- Back to menu
+    if key == "escape" then
+        current_page = "Menu"
+        love.audio.pause(back_music)
     -- Close the game
-    if key == "q" then
+    elseif key == "q" then
         love.event.quit()
     -- Reset game
     elseif key == "r" then
         love.event.quit('restart')
-    -- Toggle Full Screen mode
-    elseif key == "f" then
-        if (love.window.getFullscreen()) then
-            love.window.setFullscreen(false, "desktop")
-        else
-            love.window.setFullscreen(true, "desktop")
-        end
-        adjustWindow()
     end
 end
 
@@ -165,6 +153,8 @@ function loadSounds()
     e_projectile_sound = love.audio.newSource("sounds/e_projectile.mp3", "static")
     player_hit_sound = love.audio.newSource("sounds/player_hit.mp3", "static")
     explosion_sound = love.audio.newSource("sounds/explosion.mp3", "static")
+    win_sound = love.audio.newSource("sounds/win.mp3", "static")
+    lose_sound = love.audio.newSource("sounds/lose.mp3", "static")
 end
 
 function reset()

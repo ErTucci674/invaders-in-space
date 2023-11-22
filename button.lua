@@ -8,6 +8,7 @@ function Button:new(x, y, width, height)
 end
 
 function Button:draw()
+    self:background()
     if (self:mouseOver()) then
         love.graphics.setColor(0,0,255)
     end
@@ -21,4 +22,10 @@ function Button:mouseOver()
         return true
     end
     return false
+end
+
+function Button:background()
+    love.graphics.setColor(0,0,0)
+    love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
+    love.graphics.setColor(255,255,255)
 end

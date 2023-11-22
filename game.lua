@@ -143,7 +143,7 @@ function Game:aliensUpdate(dt)
                                 gameover:resultUpdate()
                                 current_page = "Game Over"
                             else
-                                self.enemies = updateEnemiesSpeed(self.enemies, 0.5)
+                                self.enemies = updateEnemiesSpeed(self.enemies, 1)
                             end
                         end
 

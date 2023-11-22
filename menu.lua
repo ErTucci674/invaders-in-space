@@ -33,6 +33,9 @@ function Menu:update(dt)
         if (button:mouseOver()) then
             if (love.mouse.isDown(1)) then
                 current_page = menu_options[i].string
+                if (current_page == "Start") then
+                    love.audio.play(back_music)
+                end
             end
         end
     end

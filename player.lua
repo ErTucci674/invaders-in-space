@@ -2,7 +2,7 @@ Player = Entity:extend()
 
 function Player:new(image, x, y)
     Player.super.new(self, image, x, y)
-    self.health = 1 --PLAYER_HEALTH
+    self.health = PLAYER_HEALTH
     self.width = PLAYER_WIDTH
     self.height = PLAYER_HEIGHT
     self.speed = PLAYER_SPEED
@@ -18,6 +18,7 @@ function Player:new(image, x, y)
     self.hit_timer = self.hit_stop
 
     self.visibility = true
+    self.tutorial_animation = false
 end
 
 function Player:update(dt)
@@ -37,9 +38,11 @@ function Player:update(dt)
 end
 
 function Player:tutorialUpdate(dt)
-    self.x = self.x + self.speed * dt
-    if (self.x <= self.start_x or self.x >= self.start_x + 50) then
-        self.speed = self.speed * (-1)
+    if self.tutorial_animation then
+        self.x = self.x + self.speed * dt
+        if (self.x <= self.start_x or self.x >= self.start_x + 50) then
+            self.speed = self.speed * (-1)
+        end
     end
     self:textureUpdate(dt)
 end
