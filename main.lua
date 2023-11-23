@@ -1,4 +1,8 @@
 function love.load()
+    -- Set Game Icon
+    local icon = love.image.newImageData("pictures/icon.png")
+    love.window.setIcon(icon)
+
     -- Include files
     require("globals")
 
@@ -16,11 +20,13 @@ function love.load()
     require("button")
     require("gameover")
     
+    -- Load External Media
     loadPictures()
     loadSounds()
 
     math.randomseed(os.time())
 
+    -- Setup the different pages
     background = Background()
     menu = Menu()
     game = Game()
@@ -28,7 +34,6 @@ function love.load()
     gameover = Gameover()
 
     current_page = "Menu"
-
     current_music = back_music
 
     love.audio.setVolume(0.5)
@@ -95,12 +100,7 @@ function playSound(sound)
     love.audio.play(sound)
 end
 
--- Values Check
-function isEven(num)
-    return num % 2 == 0
-end
-
--- TEMPORARY: window control
+-- Window control keys
 function love.keypressed(key)
     -- Back to menu
     if key == "escape" then
@@ -113,26 +113,6 @@ function love.keypressed(key)
     elseif key == "r" then
         love.event.quit('restart')
     end
-end
-
--- Show array values (testing purposes)
-function showArray(arr)
-    for i=1,#arr do
-        for j=1,#arr[i] do
-            if (arr[i][j] ~= 0) then
-                io.write(1, ' ')
-            else
-                io.write(0, ' ')
-            end
-        end
-        print()
-    end
-    print(' --- ')
-end
-
-function centerLines()
-    love.graphics.rectangle("fill", 0, WINDOW_HEIGHT_CENTER, WINDOW_WIDTH, 1)
-    love.graphics.rectangle("fill", WINDOW_WIDTH_CENTER, 0, 1, WINDOW_HEIGHT)
 end
 
 -- LOAD FUNCTIONS --
@@ -157,6 +137,7 @@ function loadSounds()
     lose_sound = love.audio.newSource("sounds/lose.mp3", "static")
 end
 
+-- RESET GAME --
 function reset()
     background = Background()
     game = Game()
