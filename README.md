@@ -207,6 +207,9 @@ end
 
 Whether a star or planet is generated, in the code, both of them are defined as stars. However, when a new _star_ entity is declared, if the planets picture is inserted, then a planet is generated instead and a random _planet quad_ among the three present in the planets picture is selected.
 
+## Youtube Video - Quick Description ▶️
+**Invaders in Space**: https://youtu.be/qrqMOCnuQl4
+
 ## Reference links 🔗
 **LÖVE Website**: [LOVE2D](https://love2d.org/wiki/Main_Page)
 
