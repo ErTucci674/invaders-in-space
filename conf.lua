@@ -1,8 +1,27 @@
+/*
+ * Copyright (C) 2023 Alessandro Amatucci Girlanda
+ *
+ * This file is part of Invaders in Space.
+ *
+ * Invaders in Space is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Invaders in Space is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with Invaders in Space. If not, see <https://www.gnu.org/licenses/>.
+ */
+
 function love.conf(t)
     t.identity = nil                    -- The name of the save directory (string)
     t.appendidentity = false            -- Search files in source directory before save directory (boolean)
     t.version = "11.4"                  -- The LÖVE version this game was made for (string)
-    t.console = true                   -- Attach a console (boolean, Windows only)
+    t.console = false                   -- Attach a console (boolean, Windows only)
     t.accelerometerjoystick = true      -- Enable the accelerometer on iOS and Android by exposing it as a Joystick (boolean)
     t.externalstorage = false           -- True to save files (and read from the save directory) in external storage on Android (boolean) 
     t.gammacorrect = false              -- Enable gamma-correct rendering, when supported by the system (boolean)

@@ -223,3 +223,9 @@ Whether a star or planet is generated, in the code, both of them are defined as 
 
 ## Aknowledgements 🤝
 Harvard University Online Course (edx50) - [Introduction to Computer Science](https://www.edx.org/learn/computer-science/harvard-university-cs50-s-introduction-to-computer-science)
+
+## Licences 🖋️
+This project is licensed under the terms of the GNU General Public License, version 3.0.
+This project uses the Love2D framework, which is distributed under the zlib/libpng license.
+The terms of the Love2D license can be found in the LICENSE-Love2D file.
+This project uses the classic library. The terms of the classic license can be found in the classic/LICENCE file.
